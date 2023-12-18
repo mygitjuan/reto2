@@ -2,7 +2,7 @@ package com.banana.bananawhatsapp.persistencia;
 
 import org.junit.jupiter.api.Test;
 
-class MensajeRepositoryTest {
+class MensajeJDBCRepositoryTest {
 
     IMensajeRepository repo;
 

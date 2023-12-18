@@ -4,13 +4,15 @@ import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Setter
 @Getter
-public class MensajeRepository implements IMensajeRepository{
+@ToString
+public class MensajeJDBCRepository implements IMensajeRepository{
     @Override
     public Mensaje crear(Mensaje mensaje) throws SQLException {
         return null;

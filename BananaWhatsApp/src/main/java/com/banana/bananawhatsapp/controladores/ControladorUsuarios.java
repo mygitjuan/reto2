@@ -2,13 +2,17 @@ package com.banana.bananawhatsapp.controladores;
 
 import com.banana.bananawhatsapp.modelos.Usuario;
 import com.banana.bananawhatsapp.servicios.IServicioUsuarios;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ControladorUsuarios {
 
+
     private IServicioUsuarios servicioUsuarios;
+
 
     public Usuario alta(Usuario nuevo) {
         try {
+            System.out.println("Usuario entra: " + nuevo.toString());
             Usuario usuario = servicioUsuarios.crearUsuario(nuevo);
             System.out.println("Usuario creado: " + nuevo);
             return usuario;

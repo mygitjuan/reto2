@@ -6,11 +6,13 @@ import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Setter
 @Getter
+@ToString
 public class ServicioMensajeria implements IServicioMensajeria{
 
     @Override
