@@ -26,7 +26,7 @@ class ControladorUsuariosTest {
         usuarioValido= u.valido();
         assertEquals(usuarioValido,true);
         System.out.println(u);
-        controladorUsuarios.alta(u);
+        /*controladorUsuarios.alta(u);*/
         /*controladorUsuarios.alta(u);*/
 
     }

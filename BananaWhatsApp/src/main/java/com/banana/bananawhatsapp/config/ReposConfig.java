@@ -15,7 +15,7 @@ public class ReposConfig {
 
 
     @Bean
-    public IUsuarioRepository createIUsuarioRepository() {
+    public IUsuarioRepository createIUsuarioRepository() throws Exception {
         UsuarioJDBCRepository repo = new UsuarioJDBCRepository();
         repo.setConnUrl(connUrl);
         return repo;
