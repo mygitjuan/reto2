@@ -37,10 +37,10 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
 
-            stmt.setBoolean(2, usuario.isActivo());
-            stmt.setString(3, usuario.getAlta().toString());
-            stmt.setString(4, usuario.getEmail());
-            stmt.setString(5, usuario.getNombre());
+            stmt.setBoolean(1, usuario.isActivo());
+            stmt.setString(2, usuario.getAlta().toString());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getNombre());
 
             int rows = stmt.executeUpdate();
 

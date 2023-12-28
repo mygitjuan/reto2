@@ -31,7 +31,7 @@ class UsuarioJDBCRepositoryTest {
     @Test
     void dadoUnUsuarioValido_cuandoCrear_entoncesUsuarioValido() throws SQLException {
         Boolean usuarioValido;
-        Usuario u = new Usuario(1,"Paquito","paquito@email.com",LocalDate.now(),true);
+        Usuario u = new Usuario(3,"Paquito","paquito@email.com",LocalDate.now(),true);
         usuarioValido= u.valido();
         assertEquals(usuarioValido,true);
         System.out.println(u);
