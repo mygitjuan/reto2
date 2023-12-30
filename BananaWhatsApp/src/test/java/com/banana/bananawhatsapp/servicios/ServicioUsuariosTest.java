@@ -27,7 +27,7 @@ class ServicioUsuariosTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoCrearUsuario_entoncesUsuarioValido() throws UsuarioException {
-        Usuario u = new Usuario(null,"Servicio","paquito@email.com", LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Servicio","servicio@email.com", LocalDate.now(),true);
         System.out.println(u);
         servicio.crearUsuario(u);
         assertNotNull(u.getId());
@@ -35,7 +35,14 @@ class ServicioUsuariosTest {
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoCrearUsuario_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoCrearUsuario_entoncesExcepcion() throws UsuarioException {
+        Usuario u = new Usuario(null,"Servicio","servicio¬email.com", LocalDate.now(),true);
+        System.out.println(u);
+
+        assertThrows(Exception.class, () -> {
+                servicio.crearUsuario(u);
+                }
+        );
     }
 
     @Test
