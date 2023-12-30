@@ -19,5 +19,11 @@ public class ReposConfig {
         return repo;
     }
 
+    @Bean
+    public IMensajeRepository createIMensajeRepository() throws Exception {
+        MensajeJDBCRepository repo = new MensajeJDBCRepository();
+        repo.setDb_url(connUrl);
+        return repo;
+    }
 
 }

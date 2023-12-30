@@ -73,4 +73,35 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
     public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
         return null;
     }
+
+    @Override
+    public Usuario extraerUsuario(Integer identificador) throws SQLException {
+                Usuario user = null;
+
+        String sql = "SELECT * FROM usuario u WHERE u.id=? AND activo=1";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, identificador);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                System.out.println(rs);
+                user = new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("email"),
+                        rs.getDate("alta").toLocalDate(),
+                        rs.getBoolean("activo"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en la select: "  + e.getMessage());
+        }
+        return user;
+    }
 }

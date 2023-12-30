@@ -71,4 +71,16 @@ class UsuarioJDBCRepositoryTest {
     void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDestinatarios_entoncesExcepcion() {
     }
 
+    @Test
+    void comprobarSelectUsuarioExistente () throws SQLException {
+        Usuario u = repo.extraerUsuario(1);
+        System.out.println(u);
+        assertNotNull(u.getId());
+    }
+
+    @Test
+    void comprobarSelectUsuarioNoExistente () throws SQLException {
+        Usuario u = repo.extraerUsuario(3);
+        assertNull(u);
+    }
 }

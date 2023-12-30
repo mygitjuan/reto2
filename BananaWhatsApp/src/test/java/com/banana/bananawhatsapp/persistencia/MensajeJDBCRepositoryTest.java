@@ -4,16 +4,32 @@ import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 class MensajeJDBCRepositoryTest {
 
-    IMensajeRepository repo;
+    IMensajeRepository repoMen;
+    IUsuarioRepository repoUsu;
 
     @Test
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() {
-        /*Usuario remitente = new Usuario()
-        Mensaje m = new Mensaje(null,null,null,"Prueba 1", LocalDate.now());*/
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Usuario destinatario = null;
+        try {
+            destinatario = repoUsu.extraerUsuario(2);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Mensaje m = new Mensaje(null,remitente,destinatario,"Está es la prueba 1", LocalDate.now());
+
     }
 
     @Test

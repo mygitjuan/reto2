@@ -14,5 +14,6 @@ public interface IUsuarioRepository {
     public boolean borrar(Usuario usuario) throws SQLException;
 
     public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException;
+    public Usuario extraerUsuario(Integer identificador) throws SQLException;
 
 }

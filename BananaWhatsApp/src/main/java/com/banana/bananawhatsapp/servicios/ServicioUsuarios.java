@@ -46,4 +46,16 @@ public class ServicioUsuarios implements IServicioUsuarios{
     public Usuario obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException {
         return null;
     }
+
+    @Override
+    public Usuario leerUsuario(Usuario usuario) throws UsuarioException { //Juan
+        /*try {
+           repo.crear(usuario);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UsuarioException("Error en la creación: "  + e.getMessage());
+        }
+
+        return usuario;*/ return null;
+    }
 }
