@@ -68,4 +68,32 @@ class ServicioUsuariosTest {
     @Test
     void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDesinatarios_entoncesExcepcion() {
     }
+
+    @Test
+    void leerUsuariosValido() throws UsuarioException{
+        Usuario remitente = null;
+
+        try {
+            remitente= servicio.leerUsuario(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= servicio.leerUsuario(2);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        System.out.println("Remitente: " + remitente.toString());
+        System.out.println("Destinatario: " + destinatario.toString());
+
+    }
 }

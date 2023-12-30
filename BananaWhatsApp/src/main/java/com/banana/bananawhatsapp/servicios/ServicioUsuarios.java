@@ -48,14 +48,15 @@ public class ServicioUsuarios implements IServicioUsuarios{
     }
 
     @Override
-    public Usuario leerUsuario(Usuario usuario) throws UsuarioException { //Juan
-        /*try {
-           repo.crear(usuario);
+    public Usuario leerUsuario(Integer identificador) throws UsuarioException {
+        Usuario usuario = null;
+        try {
+           usuario = repo.extraerUsuario(identificador);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new UsuarioException("Error en la creación: "  + e.getMessage());
         }
 
-        return usuario;*/ return null;
+        return usuario;
     }
 }

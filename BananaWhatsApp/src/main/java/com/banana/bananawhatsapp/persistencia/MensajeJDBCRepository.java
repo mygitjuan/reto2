@@ -18,7 +18,7 @@ public class MensajeJDBCRepository implements IMensajeRepository{
     private String db_url;
     @Override
     public Mensaje crear(Mensaje mensaje) throws SQLException {
-    /*String sql = "INSERT INTO mensaje values (NULL,?,?,?,?)";
+    String sql = "INSERT INTO mensaje values (NULL,?,?,?,?)";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
@@ -49,7 +49,7 @@ public class MensajeJDBCRepository implements IMensajeRepository{
             throw new SQLException(e);
         }
 
-        return mensaje;*/  return null;
+        return mensaje;
     }
 
     @Override
