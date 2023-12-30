@@ -1,5 +1,6 @@
 package com.banana.bananawhatsapp.persistencia;
 
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import com.banana.bananawhatsapp.Properties.PropertyValues;
 
@@ -37,6 +38,8 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
 
+            usuario.valido();
+
             stmt.setBoolean(1, usuario.isActivo());
             stmt.setString(2, usuario.getAlta().toString());
             stmt.setString(3, usuario.getEmail());
@@ -51,6 +54,9 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
                 throw new SQLException("Usuario creado erroneamente!!!");
             }
 
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw e;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException(e);

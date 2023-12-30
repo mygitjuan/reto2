@@ -30,10 +30,9 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoCrear_entoncesUsuarioValido() throws SQLException {
-        Boolean usuarioValido;
-        Usuario u = new Usuario(3,"Paquito","paquito@email.com",LocalDate.now(),true);
-        usuarioValido= u.valido();
-        assertEquals(usuarioValido,true);
+
+        Usuario u = new Usuario(null,"Paquito","paquito@email.com",LocalDate.now(),true);
+
         System.out.println(u);
         u = repo.crear(u);
         assertNotNull(u.getId());
@@ -41,6 +40,11 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoCrear_entoncesExcepcion() {
+        Usuario u = new Usuario(null,"Paquito","paquito@email.com",LocalDate.now(),true);
+
+        System.out.println(u);
+        u = repo.crear(u);
+        assertNotNull(u.getId());
     }
 
     @Test
