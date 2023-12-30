@@ -22,11 +22,6 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
 
     private String db_url;
 
-    /*public UsuarioJDBCRepository() throws Exception {
-        PropertyValues props = new PropertyValues();
-        db_url = props.getPropValues().getProperty("db_url");
-    }*/
-
 
     @Override
     public Usuario crear(Usuario usuario) throws SQLException {

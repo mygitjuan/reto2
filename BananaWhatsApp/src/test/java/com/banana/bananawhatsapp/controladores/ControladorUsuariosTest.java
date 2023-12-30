@@ -2,8 +2,10 @@ package com.banana.bananawhatsapp.controladores;
 
 import com.banana.bananawhatsapp.config.SpringConfig;
 import com.banana.bananawhatsapp.modelos.Usuario;
+import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -17,17 +19,16 @@ import static org.hamcrest.Matchers.*;
 @ContextConfiguration(classes = {SpringConfig.class})
 class ControladorUsuariosTest {
 
+    @Autowired
     ControladorUsuarios controladorUsuarios;
 
     @Test
     void dadoUsuarioValido_cuandoAlta_entoncesUsuarioValido() {
-        Boolean usuarioValido;
-        Usuario u = new Usuario(1,"Paquito","paquito@email.com",LocalDate.now(),true);
-        usuarioValido= u.valido();
-        assertEquals(usuarioValido,true);
+        Usuario u = new Usuario(null,"Servicio","servicio@email.com", LocalDate.now(),true);
         System.out.println(u);
-        /*controladorUsuarios.alta(u);*/
-        /*controladorUsuarios.alta(u);*/
+        controladorUsuarios.alta(u);
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
 
     }
 

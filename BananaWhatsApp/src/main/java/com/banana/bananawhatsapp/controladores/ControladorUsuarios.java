@@ -4,16 +4,19 @@ import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import com.banana.bananawhatsapp.servicios.IServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.sql.SQLException;
 
+@Controller
 public class ControladorUsuarios {
 
 
+    @Autowired
     private IServicioUsuarios servicioUsuarios;
 
 
-    public Usuario alta(Usuario nuevo) throws UsuarioException, SQLException {
+    public Usuario alta(Usuario nuevo) throws UsuarioException {
         try {
             System.out.println("Usuario entra: " + nuevo.toString());
             Usuario usuario = servicioUsuarios.crearUsuario(nuevo);
