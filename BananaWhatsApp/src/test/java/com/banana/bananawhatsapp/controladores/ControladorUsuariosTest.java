@@ -1,6 +1,7 @@
 package com.banana.bananawhatsapp.controladores;
 
 import com.banana.bananawhatsapp.config.SpringConfig;
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,19 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioNOValido_cuandoBaja_entoncesExcepcion() {
+    }
+
+    @Test
+    void buscaUsuariosValidos() throws UsuarioException {
+        Usuario remitente = null;
+
+        try {
+            remitente= controladorUsuarios.buscaId(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
     }
 }

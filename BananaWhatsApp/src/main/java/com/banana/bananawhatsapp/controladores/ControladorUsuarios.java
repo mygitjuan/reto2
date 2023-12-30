@@ -52,5 +52,18 @@ public class ControladorUsuarios {
         }
     }
 
+    public Usuario buscaId(Integer identificador) throws UsuarioException {
+        try {
+            System.out.println("Id entra: " + identificador.toString());
+            Usuario usuario = servicioUsuarios.leerUsuario(identificador);
+            System.out.println("Usuario encontrado: " + usuario.toString());
+            return usuario;
+        } catch (Exception e) {
+            System.out.println("Ha habido un error: " + e.getMessage());
+            throw e;
+        }
+
+    }
+
 
 }

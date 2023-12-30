@@ -42,7 +42,7 @@ class MensajeJDBCRepositoryTest {
         }
         System.out.println("Destinatario:" + destinatario.toString());
 
-        Mensaje m = new Mensaje(null,remitente,destinatario,"Está es la prueba 1", LocalDate.now());
+        Mensaje m = new Mensaje(null,remitente,destinatario,"Está es la prueba repositorio", LocalDate.now());
 
         repoMen.crear(m);
         assertNotNull(m.getId());

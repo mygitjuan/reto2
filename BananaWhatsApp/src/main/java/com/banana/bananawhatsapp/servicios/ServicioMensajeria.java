@@ -28,7 +28,7 @@ public class ServicioMensajeria implements IServicioMensajeria{
     @Override
     public Mensaje enviarMensaje(Usuario remitente, Usuario destinatario, String texto) throws UsuarioException, MensajeException {
 
-        Mensaje mensaje = new Mensaje(null,remitente,destinatario, "Mensaje de prueba de servicio", LocalDate.now());
+        Mensaje mensaje = new Mensaje(null,remitente,destinatario, texto, LocalDate.now());
 
         try {
             mensaRep.crear(mensaje);
