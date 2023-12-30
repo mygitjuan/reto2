@@ -4,6 +4,8 @@ import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Setter;
 
+import java.sql.SQLException;
+
 
 public interface IServicioUsuarios {
     public Usuario crearUsuario(Usuario usuario) throws UsuarioException;

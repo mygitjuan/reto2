@@ -1,8 +1,11 @@
 package com.banana.bananawhatsapp.controladores;
 
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import com.banana.bananawhatsapp.servicios.IServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.SQLException;
 
 public class ControladorUsuarios {
 
@@ -10,7 +13,7 @@ public class ControladorUsuarios {
     private IServicioUsuarios servicioUsuarios;
 
 
-    public Usuario alta(Usuario nuevo) {
+    public Usuario alta(Usuario nuevo) throws UsuarioException, SQLException {
         try {
             System.out.println("Usuario entra: " + nuevo.toString());
             Usuario usuario = servicioUsuarios.crearUsuario(nuevo);

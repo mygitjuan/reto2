@@ -2,20 +2,34 @@ package com.banana.bananawhatsapp.servicios;
 
 import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
+import com.banana.bananawhatsapp.persistencia.IUsuarioRepository;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 @Setter
 @Getter
 @ToString
+@Service
 public class ServicioUsuarios implements IServicioUsuarios{
 
+    @Autowired
+    IUsuarioRepository repo;
+
     @Override
-    public Usuario crearUsuario(Usuario usuario) throws UsuarioException {
-        Usuario user = null;
-        user = usuario;
-        return user;
+    public Usuario crearUsuario(Usuario usuario) throws UsuarioException{
+        try {
+            repo.crear(usuario);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UsuarioException("Error en la creación: "  + e.getMessage());
+        }
+
+        return usuario;
     }
 
     @Override
