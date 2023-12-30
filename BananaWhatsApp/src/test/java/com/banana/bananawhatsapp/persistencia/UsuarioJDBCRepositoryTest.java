@@ -30,7 +30,7 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoCrear_entoncesUsuarioValido() throws SQLException {
-        Usuario u = new Usuario(null,"Paquito","paquito@email.com",LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Persistencia","persistencia@email.com",LocalDate.now(),true);
         System.out.println(u);
         repo.crear(u);
         assertNotNull(u.getId());
@@ -38,7 +38,7 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoCrear_entoncesExcepcion() throws SQLException {
-        Usuario u = new Usuario(null,"Paquito","paquito&email.com",LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Persistencia","persistencia&email.com",LocalDate.now(),true);
         System.out.println(u);
 
         assertThrows(Exception.class, () -> {

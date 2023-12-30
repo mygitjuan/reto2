@@ -1,6 +1,10 @@
 package com.banana.bananawhatsapp.persistencia;
 
+import com.banana.bananawhatsapp.modelos.Mensaje;
+import com.banana.bananawhatsapp.modelos.Usuario;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 class MensajeJDBCRepositoryTest {
 
@@ -8,6 +12,8 @@ class MensajeJDBCRepositoryTest {
 
     @Test
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() {
+        /*Usuario remitente = new Usuario()
+        Mensaje m = new Mensaje(null,null,null,"Prueba 1", LocalDate.now());*/
     }
 
     @Test

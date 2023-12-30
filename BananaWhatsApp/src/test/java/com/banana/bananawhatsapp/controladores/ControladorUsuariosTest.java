@@ -24,7 +24,7 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioValido_cuandoAlta_entoncesUsuarioValido() {
-        Usuario u = new Usuario(null,"Servicio","servicio@email.com", LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Controlador","controlador@email.com", LocalDate.now(),true);
         System.out.println(u);
         controladorUsuarios.alta(u);
         assertNotNull(u.getId());
@@ -34,6 +34,13 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioNOValido_cuandoAlta_entoncesExcepcion() {
+        Usuario u = new Usuario(null,"Controlador","controlador¬email.com", LocalDate.now(),true);
+        System.out.println(u);
+
+        assertThrows(Exception.class, () -> {
+                controladorUsuarios.alta(u);
+                }
+        );
     }
 
     @Test
