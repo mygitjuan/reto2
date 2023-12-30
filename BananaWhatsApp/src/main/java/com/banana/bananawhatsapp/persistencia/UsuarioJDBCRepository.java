@@ -20,13 +20,12 @@ import java.util.List;
 @ToString
 public class UsuarioJDBCRepository implements IUsuarioRepository{
 
-    private String connUrl;
-    private static String db_url = null;
+    private String db_url;
 
-    public UsuarioJDBCRepository() throws Exception {
+    /*public UsuarioJDBCRepository() throws Exception {
         PropertyValues props = new PropertyValues();
         db_url = props.getPropValues().getProperty("db_url");
-    }
+    }*/
 
 
     @Override

@@ -30,21 +30,21 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoCrear_entoncesUsuarioValido() throws SQLException {
-
         Usuario u = new Usuario(null,"Paquito","paquito@email.com",LocalDate.now(),true);
-
         System.out.println(u);
-        u = repo.crear(u);
+        repo.crear(u);
         assertNotNull(u.getId());
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoCrear_entoncesExcepcion() {
-        Usuario u = new Usuario(null,"Paquito","paquito@email.com",LocalDate.now(),true);
-
+    void dadoUnUsuarioNOValido_cuandoCrear_entoncesExcepcion() throws SQLException {
+        Usuario u = new Usuario(null,"Paquito","paquito&email.com",LocalDate.now(),true);
         System.out.println(u);
-        u = repo.crear(u);
-        assertNotNull(u.getId());
+
+        assertThrows(Exception.class, () -> {
+                repo.crear(u);
+                }
+        );
     }
 
     @Test

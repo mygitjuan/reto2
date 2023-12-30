@@ -8,6 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @Import({ReposConfig.class, ServicesConfig.class})
 @ComponentScan(basePackages = {"com.banana.bananawhatsapp.persistencia", "com.banana.bananawhatsapp.servicios"})
-@PropertySource("classpath:application.properties")
+/*@PropertySource("classpath:application.properties")*/
 public class SpringConfig {
 }
