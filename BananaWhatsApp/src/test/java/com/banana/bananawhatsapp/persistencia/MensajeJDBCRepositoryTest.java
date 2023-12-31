@@ -15,6 +15,8 @@ import static org.hamcrest.Matchers.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
@@ -29,14 +31,14 @@ class MensajeJDBCRepositoryTest {
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() throws SQLException{
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(1);
+            remitente = repoUsu.extraerUsuario(18);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
         System.out.println("Remitente:" + remitente.toString());
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(2);
+            destinatario = repoUsu.extraerUsuario(19);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -75,7 +77,20 @@ class MensajeJDBCRepositoryTest {
     }
 
     @Test
-    void dadoUnUsuarioValido_cuandoObtener_entoncesListaMensajes() {
+    void dadoUnUsuarioValido_cuandoObtener_entoncesListaMensajes() throws SQLException{
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(1);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        System.out.println("Remitente:" + remitente.toString());
+
+        List<Mensaje> mensajeList = null;
+        mensajeList = repoMen.obtener(remitente);
+        assertNotNull(mensajeList);
+        assertFalse(mensajeList.isEmpty());
+        System.out.println("Lista de mensajes:" + mensajeList.toString());
     }
 
     @Test
@@ -90,4 +105,7 @@ class MensajeJDBCRepositoryTest {
     void dadoUnUsuarioNOValido_cuandoBorrarTodos_entoncesExcepcion() {
     }
 
+
+
 }
+

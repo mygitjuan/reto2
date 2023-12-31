@@ -32,7 +32,7 @@ class ControladorMensajesTest {
         Usuario remitente = null;
 
         try {
-            remitente= controladorUsuarios.buscaId(1);
+            remitente= controladorUsuarios.buscaId(18);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de remitente: " + e.getMessage());
         }
@@ -43,7 +43,7 @@ class ControladorMensajesTest {
         Usuario destinatario = null;
 
         try {
-            destinatario= controladorUsuarios.buscaId(2);
+            destinatario= controladorUsuarios.buscaId(19);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de destinatario: " + e.getMessage());
         }

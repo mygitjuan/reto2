@@ -30,7 +30,7 @@ class ServicioMensajeriaTest {
         Usuario remitente = null;
 
         try {
-            remitente= servUsu.leerUsuario(1);
+            remitente= servUsu.leerUsuario(18);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de remitente: " + e.getMessage());
         }
@@ -41,7 +41,7 @@ class ServicioMensajeriaTest {
         Usuario destinatario = null;
 
         try {
-            destinatario= servUsu.leerUsuario(2);
+            destinatario= servUsu.leerUsuario(19);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de destinatario: " + e.getMessage());
         }

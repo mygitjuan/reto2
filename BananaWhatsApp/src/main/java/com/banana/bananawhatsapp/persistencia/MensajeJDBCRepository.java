@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -54,7 +55,44 @@ public class MensajeJDBCRepository implements IMensajeRepository{
 
     @Override
     public List<Mensaje> obtener(Usuario usuario) throws SQLException {
-        return null;
+        List<Mensaje> mensajeList = new ArrayList<>();
+        Mensaje mensaje = null;
+        Usuario destinatario = null;
+
+        String sql = "SELECT m.*, u.* FROM mensaje m LEFT JOIN usuario u ON m.to_user = u.id WHERE m.from_user=?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, usuario.getId());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                destinatario =new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("email"),
+                        rs.getDate("alta").toLocalDate(),
+                        rs.getBoolean("activo"));
+
+                mensaje = new Mensaje(
+                        rs.getInt("id"),
+                        usuario,
+                        destinatario,
+                        rs.getString("cuerpo"),
+                        rs.getDate("fecha").toLocalDate());
+
+                mensajeList.add(mensaje);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en la select: "  + e.getMessage());
+        }
+        return mensajeList;
     }
 
     @Override

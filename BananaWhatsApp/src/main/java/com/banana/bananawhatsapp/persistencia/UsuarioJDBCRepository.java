@@ -76,7 +76,7 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
 
     @Override
     public Usuario extraerUsuario(Integer identificador) throws SQLException {
-                Usuario user = null;
+        Usuario user = null;
 
         String sql = "SELECT * FROM usuario u WHERE u.id=? AND activo=1";
 
@@ -89,13 +89,15 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println(rs);
+                /*System.out.println(rs);*/
                 user = new Usuario(
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getDate("alta").toLocalDate(),
                         rs.getBoolean("activo"));
+
+                user.valido();
             }
 
         } catch (SQLException e) {
