@@ -128,6 +128,25 @@ class ControladorMensajesTest {
 
     @Test
     void dadoRemitenteYDestinatarioNOValidos_cuandoMostrarChat_entoncesExcepcion() {
+        Usuario remitente = null;
+
+        try {
+            remitente= controladorUsuarios.buscaId(18);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+        
+        System.out.println("Remitente: " + remitente.toString());
+        final Usuario remitenteFinal = remitente;
+
+        assertThrows(Exception.class, () -> {
+                controladorMensajes.mostrarChat(remitenteFinal.getId(), null);
+                }
+        );
+
     }
 
     @Test
