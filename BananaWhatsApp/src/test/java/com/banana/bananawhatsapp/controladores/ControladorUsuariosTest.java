@@ -25,7 +25,7 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioValido_cuandoAlta_entoncesUsuarioValido() {
-        Usuario u = new Usuario(null,"Controlador2","controlador2@email.com", LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Controlador3","controlador3@email.com", LocalDate.now(),true);
         System.out.println(u);
         controladorUsuarios.alta(u);
         assertNotNull(u.getId());

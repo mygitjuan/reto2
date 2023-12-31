@@ -31,14 +31,14 @@ class MensajeJDBCRepositoryTest {
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() throws SQLException{
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(18);
+            remitente = repoUsu.extraerUsuario(22);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
         System.out.println("Remitente:" + remitente.toString());
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(19);
+            destinatario = repoUsu.extraerUsuario(21);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -113,6 +113,14 @@ class MensajeJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoBorrarTodos_entoncesOK() {
+        /*Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(1);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        System.out.println("Remitente:" + remitente.toString());*/
+        //aki
     }
 
     @Test

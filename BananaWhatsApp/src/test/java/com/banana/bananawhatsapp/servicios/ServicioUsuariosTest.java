@@ -27,7 +27,7 @@ class ServicioUsuariosTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoCrearUsuario_entoncesUsuarioValido() throws UsuarioException {
-        Usuario u = new Usuario(null,"Servicio2","servicio2@email.com", LocalDate.now(),true);
+        Usuario u = new Usuario(null,"Servicio3","servicio3@email.com", LocalDate.now(),true);
         System.out.println(u);
         servicio.crearUsuario(u);
         assertNotNull(u.getId());

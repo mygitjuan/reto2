@@ -41,7 +41,14 @@ public class ServicioMensajeria implements IServicioMensajeria{
 
     @Override
     public List<Mensaje> mostrarChatConUsuario(Usuario remitente, Usuario destinatario) throws UsuarioException, MensajeException {
-        return null;
+        List<Mensaje> mensajeList = null;
+
+        try {
+            mensajeList = mensaRep.obtener(remitente);
+        } catch (SQLException e) {
+            throw new MensajeException("Error de chat con usuario: " + e.getMessage());
+        }
+        return mensajeList;
     }
 
     @Override

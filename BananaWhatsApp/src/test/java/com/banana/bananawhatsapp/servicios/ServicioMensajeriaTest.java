@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +32,7 @@ class ServicioMensajeriaTest {
         Usuario remitente = null;
 
         try {
-            remitente= servUsu.leerUsuario(18);
+            remitente= servUsu.leerUsuario(1);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de remitente: " + e.getMessage());
         }
@@ -41,7 +43,7 @@ class ServicioMensajeriaTest {
         Usuario destinatario = null;
 
         try {
-            destinatario= servUsu.leerUsuario(19);
+            destinatario= servUsu.leerUsuario(2);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de destinatario: " + e.getMessage());
         }
@@ -95,10 +97,69 @@ class ServicioMensajeriaTest {
 
     @Test
     void dadoRemitenteYDestinatarioValido_cuandoMostrarChatConUsuario_entoncesListaMensajes() {
+
+        Usuario remitente = null;
+
+        try {
+            remitente= servUsu.leerUsuario(22);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= servUsu.leerUsuario(21);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        System.out.println("Remitente: " + remitente.toString());
+        System.out.println("Destinatario: " + destinatario.toString());
+
+        List<Mensaje> mensajeList = servMen.mostrarChatConUsuario(remitente,destinatario);
+        assertNotNull(mensajeList);
+        assertFalse(mensajeList.isEmpty());
+        System.out.println("Lista de mensajes:" + mensajeList.toString());
+
     }
 
     @Test
     void dadoRemitenteYDestinatarioNOValido_cuandoMostrarChatConUsuario_entoncesExcepcion() {
+        Usuario remitente = null;
+
+        try {
+            remitente= servUsu.leerUsuario(18);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+        System.out.println("Remitente: " + remitente.toString());
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= servUsu.leerUsuario(19);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNull(destinatario);
+
+        final Usuario remitenteFinal = remitente;
+        final Usuario destinatarioFinal = destinatario;
+
+        assertThrows(Exception.class, () -> {
+                servMen.mostrarChatConUsuario(remitenteFinal,destinatarioFinal);
+                }
+        );
+
     }
 
     @Test

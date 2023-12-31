@@ -32,7 +32,7 @@ class ControladorMensajesTest {
         Usuario remitente = null;
 
         try {
-            remitente= controladorUsuarios.buscaId(18);
+            remitente= controladorUsuarios.buscaId(22);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de remitente: " + e.getMessage());
         }
@@ -43,7 +43,7 @@ class ControladorMensajesTest {
         Usuario destinatario = null;
 
         try {
-            destinatario= controladorUsuarios.buscaId(19);
+            destinatario= controladorUsuarios.buscaId(21);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de destinatario: " + e.getMessage());
         }
@@ -60,7 +60,7 @@ class ControladorMensajesTest {
 
     @Test
     void dadoRemitenteYDestinatarioYTextoNOValidos_cuandoEnviarMensaje_entoncesExcepcion() {
-                Usuario remitente = null;
+        Usuario remitente = null;
 
         try {
             remitente= controladorUsuarios.buscaId(1);
@@ -96,6 +96,34 @@ class ControladorMensajesTest {
 
     @Test
     void dadoRemitenteYDestinatarioValidos_cuandoMostrarChat_entoncesOK() {
+        Usuario remitente = null;
+
+        try {
+            remitente= controladorUsuarios.buscaId(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= controladorUsuarios.buscaId(2);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        System.out.println("Remitente: " + remitente.toString());
+        System.out.println("Destinatario: " + destinatario.toString());
+
+        Boolean mensa = controladorMensajes.mostrarChat(remitente.getId(),destinatario.getId());
+
+        assertTrue(mensa);
+
     }
 
     @Test
