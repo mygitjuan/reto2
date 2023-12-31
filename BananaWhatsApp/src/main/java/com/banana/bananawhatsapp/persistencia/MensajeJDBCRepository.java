@@ -1,6 +1,7 @@
 package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.exceptions.MensajeException;
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
@@ -78,6 +79,8 @@ public class MensajeJDBCRepository implements IMensajeRepository{
                         rs.getDate("alta").toLocalDate(),
                         rs.getBoolean("activo"));
 
+                destinatario.valido();
+
                 mensaje = new Mensaje(
                         rs.getInt("id"),
                         usuario,
@@ -87,7 +90,9 @@ public class MensajeJDBCRepository implements IMensajeRepository{
 
                 mensajeList.add(mensaje);
             }
-
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Error en la select: "  + e.getMessage());

@@ -94,7 +94,21 @@ class MensajeJDBCRepositoryTest {
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoObtener_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoObtener_entoncesExcepcion() throws SQLException{
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(18);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        System.out.println("Remitente:" + remitente.toString());
+
+        final Usuario remitenteFinal = remitente;
+        assertThrows(Exception.class, () -> {
+                repoMen.obtener(remitenteFinal);
+                }
+        );
+
     }
 
     @Test
