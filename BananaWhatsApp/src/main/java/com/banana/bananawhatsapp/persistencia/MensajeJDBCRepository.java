@@ -101,7 +101,89 @@ public class MensajeJDBCRepository implements IMensajeRepository{
     }
 
     @Override
+    public List<Mensaje> obtener(Usuario usuario, Usuario destinatario) throws SQLException {
+        List<Mensaje> mensajeList = new ArrayList<>();
+        Mensaje mensaje = null;
+
+        String sql = "SELECT m.*, u.*, v.* FROM mensaje m LEFT JOIN (usuario u, usuario v) ON m.from_user = u.id and m.to_user = v.id WHERE m.from_user=? AND m.to_user=?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, usuario.getId());
+            stmt.setInt(2, destinatario.getId());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario remitenteDB = new Usuario(
+                        rs.getInt(6),
+                        rs.getString(10),
+                        rs.getString(9),
+                        rs.getDate(8).toLocalDate(),
+                        rs.getBoolean(7));
+
+                remitenteDB.valido();
+
+                Usuario destinatarioDB = new Usuario(
+                        rs.getInt(11),
+                        rs.getString(15),
+                        rs.getString(14),
+                        rs.getDate(13).toLocalDate(),
+                        rs.getBoolean(12));
+
+                destinatarioDB.valido();
+
+                mensaje = new Mensaje(
+                        rs.getInt("id"),
+                        remitenteDB,
+                        destinatarioDB,
+                        rs.getString("cuerpo"),
+                        rs.getDate("fecha").toLocalDate());
+
+                mensajeList.add(mensaje);
+            }
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en la select: "  + e.getMessage());
+        }
+        return mensajeList;
+    }
+
+    @Override
     public boolean borrarTodos(Usuario usuario) throws SQLException {
         return false;
     }
+
+    @Override
+    public boolean borrarTodos(Usuario usuario, Usuario destinatario) throws SQLException {
+        String sql = "DELETE FROM mensaje WHERE from_user=? AND to_user=?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, usuario.getId());
+            stmt.setInt(2, destinatario.getId());
+
+            int rows = stmt.executeUpdate();
+            System.out.println(rows);
+
+            if(rows<=0){
+                throw new SQLException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en el delete: "  + e.getMessage());
+
+        }
+
+        return true;
+    }
+
 }

@@ -11,6 +11,11 @@ public interface IMensajeRepository {
 
     public List<Mensaje> obtener(Usuario usuario) throws SQLException;
 
+    public List<Mensaje> obtener(Usuario usuario, Usuario destinatario) throws SQLException;
+
+
     public boolean borrarTodos(Usuario usuario) throws SQLException;
+
+    public boolean borrarTodos(Usuario usuario, Usuario destinatario) throws SQLException;
 
 }

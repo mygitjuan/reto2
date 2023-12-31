@@ -94,6 +94,37 @@ class MensajeJDBCRepositoryTest {
     }
 
     @Test
+    void dadoUnUsuarioValido_cuandoObtener_entoncesListaMensajesConcreto() throws SQLException{
+        //añadido por juan para probar destinatario concreto
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(1);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+        try {
+            destinatario = repoUsu.extraerUsuario(2);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        List<Mensaje> mensajeList = null;
+        mensajeList = repoMen.obtener(remitente,destinatario);
+        assertNotNull(mensajeList);
+        assertFalse(mensajeList.isEmpty());
+        System.out.println("Lista de mensajes:" + mensajeList.toString());
+    }
+
+
+    @Test
     void dadoUnUsuarioNOValido_cuandoObtener_entoncesExcepcion() throws SQLException{
         Usuario remitente = null;
         try {
@@ -112,19 +143,92 @@ class MensajeJDBCRepositoryTest {
     }
 
     @Test
-    void dadoUnUsuarioValido_cuandoBorrarTodos_entoncesOK() {
-        /*Usuario remitente = null;
+    void dadoUnUsuarioNOValido_cuandoObtener_entoncesExcepcionConcreto() throws SQLException{
+        //añadido por juan para probar destinatario concreto
+        Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(1);
+            remitente = repoUsu.extraerUsuario(18);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
-        System.out.println("Remitente:" + remitente.toString());*/
-        //aki
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+        try {
+            destinatario = repoUsu.extraerUsuario(19);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        assertNull(destinatario);
+
+        final Usuario remitenteFinal = remitente;
+        final Usuario destinatarioFinal = destinatario;
+
+        assertThrows(Exception.class, () -> {
+                repoMen.obtener(remitenteFinal, destinatarioFinal);
+                }
+        );
+
+    }
+
+
+    @Test
+    void dadoUnUsuarioValido_cuandoBorrarTodos_entoncesOK() throws SQLException{
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(22);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        System.out.println("Remitente:" + remitente.toString());
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+        try {
+            destinatario = repoUsu.extraerUsuario(21);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        Boolean resp = false;
+        resp = repoMen.borrarTodos(remitente,destinatario);
+        assertTrue(resp);
+
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoBorrarTodos_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoBorrarTodos_entoncesExcepcion() throws SQLException{
+        Usuario remitente = null;
+        try {
+            remitente = repoUsu.extraerUsuario(22);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        System.out.println("Remitente:" + remitente.toString());
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+        try {
+            destinatario = repoUsu.extraerUsuario(21);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        Boolean resp = false;
+        resp = repoMen.borrarTodos(remitente,destinatario);
+        assertTrue(resp);
+
     }
 
 

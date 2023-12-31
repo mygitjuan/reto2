@@ -44,7 +44,9 @@ public class ServicioMensajeria implements IServicioMensajeria{
         List<Mensaje> mensajeList = null;
 
         try {
-            mensajeList = mensaRep.obtener(remitente);
+            /*mensajeList = mensaRep.obtener(remitente);*/
+            mensajeList = mensaRep.obtener(remitente,destinatario);
+
         } catch (SQLException e) {
             throw new MensajeException("Error de chat con usuario: " + e.getMessage());
         }
