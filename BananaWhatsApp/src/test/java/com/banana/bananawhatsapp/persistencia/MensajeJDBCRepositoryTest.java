@@ -217,7 +217,7 @@ class MensajeJDBCRepositoryTest {
 
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(21);
+            destinatario = repoUsu.extraerUsuario(2);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -225,9 +225,13 @@ class MensajeJDBCRepositoryTest {
         assertNotNull(destinatario.getId());
         assertThat(destinatario.getId(),greaterThan(0));
 
-        Boolean resp = false;
-        resp = repoMen.borrarTodos(remitente,destinatario);
-        assertTrue(resp);
+        final Usuario remitenteFinal = remitente;
+        final Usuario destinatarioFinal = destinatario;
+
+        assertThrows(Exception.class, () -> {
+                repoMen.borrarTodos(remitenteFinal,destinatarioFinal);
+                }
+        );
 
     }
 
