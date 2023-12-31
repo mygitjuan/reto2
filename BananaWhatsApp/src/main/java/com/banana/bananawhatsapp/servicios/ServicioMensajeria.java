@@ -55,6 +55,12 @@ public class ServicioMensajeria implements IServicioMensajeria{
 
     @Override
     public boolean borrarChatConUsuario(Usuario remitente, Usuario destinatario) throws UsuarioException, MensajeException {
-        return false;
+        Boolean resp = false;
+        try {
+            resp = mensaRep.borrarTodos(remitente,destinatario);
+        } catch (SQLException e) {
+            throw new MensajeException("Error delete chat con usuario: " + e.getMessage());
+        }
+        return resp;
     }
 }

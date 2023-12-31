@@ -151,10 +151,71 @@ class ControladorMensajesTest {
 
     @Test
     void dadoRemitenteYDestinatarioValidos_cuandoEliminarChatConUsuario_entoncesOK() {
+        Usuario remitente = null;
+
+        try {
+            remitente= controladorUsuarios.buscaId(22);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= controladorUsuarios.buscaId(21);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        System.out.println("Remitente: " + remitente.toString());
+        System.out.println("Destinatario: " + destinatario.toString());
+
+        Boolean mensa = false;
+        mensa = controladorMensajes.eliminarChatConUsuario(remitente.getId(), destinatario.getId());
+
+        assertTrue(mensa);
+
     }
 
     @Test
     void dadoRemitenteYDestinatarioNOValidos_cuandoEliminarChatConUsuario_entoncesExcepcion() {
+        Usuario remitente = null;
+
+        try {
+            remitente= controladorUsuarios.buscaId(22);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Usuario destinatario = null;
+
+        try {
+            destinatario= controladorUsuarios.buscaId(2);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de destinatario: " + e.getMessage());
+        }
+        assertNotNull(destinatario.getId());
+        assertThat(destinatario.getId(),greaterThan(0));
+
+        System.out.println("Remitente: " + remitente.toString());
+        System.out.println("Destinatario: " + destinatario.toString());
+
+        final Usuario remitenteFinal = remitente;
+        final Usuario destinatarioFinal = destinatario;
+
+        assertThrows(Exception.class, () -> {
+                controladorMensajes.eliminarChatConUsuario(remitenteFinal.getId(), destinatarioFinal.getId());
+                }
+        );
+
     }
 
 
