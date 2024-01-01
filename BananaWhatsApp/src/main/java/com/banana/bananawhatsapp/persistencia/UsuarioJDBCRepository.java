@@ -121,7 +121,27 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
 
     @Override
     public Usuario actualizar(Usuario usuario) throws SQLException {
-        return null;
+        String sql = "UPDATE usuario set activo=?, alta=?, email=?, nombre=? WHERE id=?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+
+            stmt.setBoolean(1, usuario.isActivo());
+            stmt.setString(2, usuario.getAlta().toString());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getNombre());
+            stmt.setInt(5, usuario.getId());
+
+            int rows = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return usuario;
     }
 
     @Override

@@ -47,7 +47,13 @@ public class ServicioUsuarios implements IServicioUsuarios{
 
     @Override
     public Usuario actualizarUsuario(Usuario usuario) throws UsuarioException {
-        return null;
+        try {
+            repo.actualizar(usuario);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UsuarioException("Error al actualizar: "  + e.getMessage());
+        }
+        return usuario;
     }
 
     @Override

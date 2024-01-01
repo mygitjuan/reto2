@@ -66,10 +66,45 @@ class ServicioUsuariosTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoBorrarUsuario_entoncesExcepcion() {
+        final Integer identificador = 32;
+
+        assertThrows(Exception.class, () -> {
+                usuarioServicio.leerUsuario(identificador);
+                }
+        );
+
+
+        final Usuario uFinal = null;
+
+        assertThrows(Exception.class, () -> {
+                mensajeriaServicio.borrarChatConUsuario(uFinal);
+                }
+        );
+
+        assertThrows(Exception.class, () -> {
+                usuarioServicio.borrarUsuario(uFinal);
+                }
+        );
+
     }
 //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
     @Test
     void dadoUnUsuarioValido_cuandoActualizarUsuario_entoncesUsuarioValido() {
+        Integer idParm = 41;
+        Usuario u = usuarioServicio.leerUsuario(idParm);
+        System.out.println(u);
+
+        u.setNombre("Dragón");
+        u.setEmail("dragon@d.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        Boolean usuarioValido = u.valido();
+        assertTrue(usuarioValido);
+
+        Usuario usuarioActualizado = usuarioServicio.actualizarUsuario(u);
+        assertNotNull(usuarioActualizado);
+        assertEquals(usuarioActualizado.getId(), u.getId());
 
     }
 

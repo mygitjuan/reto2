@@ -1,11 +1,13 @@
 package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.config.SpringConfig;
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -73,16 +75,55 @@ class UsuarioJDBCRepositoryTest {
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoBorrar_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoBorrar_entoncesExcepcion() throws SQLException{
+        final Integer identificador = 32;
+
+        assertThrows(Exception.class, () -> {
+                usuarioRepo.extraerUsuario(identificador);
+                }
+        );
+
+
+        final Usuario uFinal = null;
+
+        assertThrows(Exception.class, () -> {
+                mensajeRepo.borrarTodos(uFinal);
+                }
+        );
+
+        assertThrows(Exception.class, () -> {
+                usuarioRepo.borrar(uFinal);
+                }
+        );
+
+
     }
 
 //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
     @Test
-    void dadoUnUsuarioValido_cuandoActualizar_entoncesUsuarioValido() {
+    void dadoUnUsuarioValido_cuandoActualizar_entoncesUsuarioValido() throws SQLException{
+        Integer identificador = 41;
+        Usuario u = usuarioRepo.extraerUsuario(identificador);
+        System.out.println(u);
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        u.setNombre("Pegaso");
+        u.setEmail("pegaso@p.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        Boolean usuarioValido = u.valido();
+        assertTrue(usuarioValido);
+
+        Usuario usuarioActualizado = usuarioRepo.actualizar(u);
+        assertNotNull(usuarioActualizado);
+        assertEquals(usuarioActualizado.getId(), u.getId());
+
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoActualizar_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoActualizar_entoncesExcepcion() throws SQLException{
     }
 
 

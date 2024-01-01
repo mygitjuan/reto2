@@ -68,6 +68,25 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioNOValido_cuandoBaja_entoncesExcepcion() {
+        final Integer identificador = 32;
+
+        assertThrows(Exception.class, () -> {
+                controladorUsuarios.buscaId(identificador);
+                }
+        );
+
+        assertThrows(Exception.class, () -> {
+                controladorMensajes.eliminarChatConUsuario(identificador);
+                }
+        );
+
+        final Usuario uFinal = null;
+
+        assertThrows(Exception.class, () -> {
+                controladorUsuarios.baja(uFinal);
+                }
+        );
+
     }
 
     //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
