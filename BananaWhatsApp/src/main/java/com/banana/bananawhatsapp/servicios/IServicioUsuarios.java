@@ -5,6 +5,7 @@ import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Setter;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 
 public interface IServicioUsuarios {
@@ -14,7 +15,7 @@ public interface IServicioUsuarios {
 
     public Usuario actualizarUsuario(Usuario usuario) throws UsuarioException;
 
-    public Usuario obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException;
+    public Set<Usuario> obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException;
 
     public Usuario leerUsuario(Integer identificador) throws UsuarioException;
 

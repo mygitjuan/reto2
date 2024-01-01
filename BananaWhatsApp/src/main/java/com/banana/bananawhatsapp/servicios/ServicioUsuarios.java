@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -43,7 +44,7 @@ public class ServicioUsuarios implements IServicioUsuarios{
     }
 
     @Override
-    public Usuario obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException {
+    public Set<Usuario> obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException {
         return null;
     }
 

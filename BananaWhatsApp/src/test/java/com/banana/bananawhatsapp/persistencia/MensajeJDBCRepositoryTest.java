@@ -179,7 +179,7 @@ class MensajeJDBCRepositoryTest {
     void dadoUnUsuarioValido_cuandoBorrarTodos_entoncesOK() throws SQLException{
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(22);
+            remitente = repoUsu.extraerUsuario(28);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -189,7 +189,7 @@ class MensajeJDBCRepositoryTest {
 
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(21);
+            destinatario = repoUsu.extraerUsuario(27);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
