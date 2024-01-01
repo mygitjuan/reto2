@@ -92,6 +92,21 @@ class ControladorUsuariosTest {
     //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
     @Test
     void dadoUsuarioValido_cuandoActualizar_entoncesUsuarioValido() {
+        Integer idParm = 41;
+        Usuario u = controladorUsuarios.buscaId(idParm);
+        System.out.println(u);
+
+        u.setNombre("Cisne");
+        u.setEmail("cisne@c.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        Boolean usuarioValido = u.valido();
+        assertTrue(usuarioValido);
+
+        Usuario usuarioActualizado = controladorUsuarios.actualizar(u);
+        assertNotNull(usuarioActualizado);
+        assertEquals(usuarioActualizado.getId(), u.getId());
     }
 
     @Test

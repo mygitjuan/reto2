@@ -128,6 +128,8 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
 
+            usuario.valido();
+
             stmt.setBoolean(1, usuario.isActivo());
             stmt.setString(2, usuario.getAlta().toString());
             stmt.setString(3, usuario.getEmail());
@@ -135,6 +137,10 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
             stmt.setInt(5, usuario.getId());
 
             int rows = stmt.executeUpdate();
+
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en el update: "  + e.getMessage());
 
         } catch (SQLException e) {
             e.printStackTrace();

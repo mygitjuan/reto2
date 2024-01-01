@@ -124,6 +124,22 @@ class UsuarioJDBCRepositoryTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoActualizar_entoncesExcepcion() throws SQLException{
+        Integer identificador = 41;
+        Usuario u = usuarioRepo.extraerUsuario(identificador);
+        System.out.println(u);
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        u.setNombre("Pegaso");
+        u.setEmail("pegaso#p.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        assertThrows(Exception.class, () -> {
+                usuarioRepo.actualizar(u);
+                }
+        );
+
     }
 
 
