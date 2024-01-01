@@ -1,19 +1,17 @@
 package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.config.SpringConfig;
-import com.banana.bananawhatsapp.exceptions.UsuarioException;
-import com.banana.bananawhatsapp.modelos.Mensaje;
+
 import com.banana.bananawhatsapp.modelos.Usuario;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;

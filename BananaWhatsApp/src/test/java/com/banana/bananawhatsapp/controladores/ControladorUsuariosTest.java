@@ -3,7 +3,6 @@ package com.banana.bananawhatsapp.controladores;
 import com.banana.bananawhatsapp.config.SpringConfig;
 import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
-import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

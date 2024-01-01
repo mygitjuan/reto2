@@ -2,7 +2,6 @@ package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
-import com.banana.bananawhatsapp.Properties.PropertyValues;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +9,7 @@ import lombok.ToString;
 
 import java.sql.SQLException;
 import java.util.Set;
-import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter

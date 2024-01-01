@@ -6,7 +6,6 @@ import com.banana.bananawhatsapp.servicios.IServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.sql.SQLException;
 
 @Controller
 public class ControladorUsuarios {
