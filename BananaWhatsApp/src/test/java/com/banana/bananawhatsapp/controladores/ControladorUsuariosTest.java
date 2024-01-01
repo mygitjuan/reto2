@@ -23,6 +23,9 @@ class ControladorUsuariosTest {
     @Autowired
     ControladorUsuarios controladorUsuarios;
 
+    @Autowired
+    ControladorMensajes controladorMensajes;
+
     @Test
     void dadoUsuarioValido_cuandoAlta_entoncesUsuarioValido() {
         Usuario u = new Usuario(null,"Controlador3","controlador3@email.com", LocalDate.now(),true);
@@ -48,6 +51,19 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioValido_cuandoBaja_entoncesUsuarioValido() {
+        Integer idParm = 42;
+        Usuario u = controladorUsuarios.buscaId(idParm);
+        System.out.println(u);
+
+        Boolean mensajeDelete = false;
+        mensajeDelete = controladorMensajes.eliminarChatConUsuario(idParm);
+        assertTrue(mensajeDelete);
+
+        Boolean usuarioDelete = false;
+        usuarioDelete = controladorUsuarios.baja(u);
+        assertTrue(usuarioDelete);
+
+
     }
 
     @Test

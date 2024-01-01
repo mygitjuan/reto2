@@ -63,7 +63,7 @@ public class ServicioMensajeria implements IServicioMensajeria{
         }
         return resp;
     }
-
+    //añado el siguiente metodo para controlar el borrado de mensajes cuando se da de baja el usuario
     @Override
     public boolean borrarChatConUsuario(Usuario remitente) throws UsuarioException, MensajeException {
         Boolean resp = false;

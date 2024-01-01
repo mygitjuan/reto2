@@ -75,5 +75,26 @@ public class ControladorMensajes {
 
     }
 
+    //añado el siguiente metodo para controlar el borrado de mensajes cuando se da de baja el usuario
+    public boolean eliminarChatConUsuario(Integer remitente) {
+        try {
+            Usuario uRemitente = new Usuario();
+            uRemitente.setId(remitente);
+
+            boolean isOK = servicioMensajeria.borrarChatConUsuario(uRemitente);
+            if (isOK) {
+                System.out.println("Mensajes borrados pertenecientes a: " + remitente);
+            } else {
+                System.out.println("NO se han borrado mensajes pertenecientes a: " + remitente);
+            }
+            return isOK;
+        } catch (Exception e) {
+            System.out.println("Ha habido un error: " + e.getMessage());
+            throw e;
+        }
+
+    }
+
+
 
 }

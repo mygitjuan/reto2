@@ -18,10 +18,10 @@
 --
 
 INSERT INTO `mensaje` (`id`, `cuerpo`, `fecha`, `from_user`, `to_user`) VALUES
-(39, '¿Has visto Star Trek?', '2024-01-01', 35, 36),
-(40, 'No nunca', '2024-01-01', 36, 35),
-(41, '¿Qué es?', '2024-01-01', 36, 37),
-(42, '¿Conoces Star Trek?', '2024-01-01', 37, 35);
+(47, '¿Has visto Star Trek?', '2024-01-01', 41, 42),
+(48, 'No nunca', '2024-01-01', 42, 38),
+(49, '¿Qué es?', '2024-01-01', 42, 38),
+(50, '¿Conoces Star Trek?', '2024-01-01', 43, 41);
 
 
 
