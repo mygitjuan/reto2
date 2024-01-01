@@ -21,6 +21,7 @@ class ServicioUsuariosTest {
     @Autowired
     IServicioUsuarios usuarioServicio;
 
+    @Autowired
     IServicioMensajeria mensajeriaServicio;
 
 
@@ -50,7 +51,6 @@ class ServicioUsuariosTest {
         Usuario u = usuarioServicio.leerUsuario(idParm);
         System.out.println(u);
 
-        mensajeriaServicio.borrarChatConUsuario(u);
         Boolean mensajeDelete = false;
         mensajeDelete = mensajeriaServicio.borrarChatConUsuario(u);
         assertTrue(mensajeDelete);
