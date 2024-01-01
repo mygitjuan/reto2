@@ -60,21 +60,6 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
     }
 
     @Override
-    public Usuario actualizar(Usuario usuario) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public boolean borrar(Usuario usuario) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
-        return null;
-    }
-
-    @Override
     public Usuario extraerUsuario(Integer identificador) throws SQLException {
         Usuario user = null;
 
@@ -106,4 +91,42 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
         }
         return user;
     }
+//muevo de sitio los metodos para que queden en el orden igual que los casos
+    @Override
+    public boolean borrar(Usuario usuario) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id=?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, usuario.getId());
+
+            int rows = stmt.executeUpdate();
+            System.out.println(rows);
+
+            if(rows<=0){
+                throw new SQLException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en el delete: "  + e.getMessage());
+
+        }
+
+        System.out.println("Salimos de borrar- UsuarioRepository");
+        return true;
+    }
+
+    @Override
+    public Usuario actualizar(Usuario usuario) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
+        return null;
+    }
+
 }

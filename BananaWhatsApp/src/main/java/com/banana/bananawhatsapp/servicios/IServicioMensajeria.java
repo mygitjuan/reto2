@@ -15,4 +15,7 @@ public interface IServicioMensajeria {
 
     public boolean borrarChatConUsuario(Usuario remitente, Usuario destinatario) throws UsuarioException, MensajeException;
 
+    //añado el siguiente metodo para controlar el borrado de mensajes cuando se da de baja el usuario
+    public boolean borrarChatConUsuario(Usuario remitente) throws UsuarioException, MensajeException;
+
 }

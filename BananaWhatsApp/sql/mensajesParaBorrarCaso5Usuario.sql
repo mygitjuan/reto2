@@ -18,7 +18,7 @@
 --
 
 INSERT INTO `usuario` (`id`, `activo`, `alta`, `email`, `nombre`) VALUES
-(29, b'1', '2024-01-01', 'mariner@o.com', 'Mariner'),
-(30, b'1', '2024-01-01', 'boimler@b.com', 'Boimler'),
-(31, b'1', '2024-01-01', 'dvana@d.com', 'Dvana');
+(35, b'1', '2024-01-01', 'mariner@o.com', 'Mariner'),
+(36, b'1', '2024-01-01', 'boimler@b.com', 'Boimler'),
+(37, b'1', '2024-01-01', 'dvana@d.com', 'Dvana');
 

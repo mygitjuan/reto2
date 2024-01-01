@@ -44,13 +44,7 @@ class ControladorUsuariosTest {
         );
     }
 
-    @Test
-    void dadoUsuarioValido_cuandoActualizar_entoncesUsuarioValido() {
-    }
 
-    @Test
-    void dadoUsuarioNOValido_cuandoActualizar_entoncesExcepcion() {
-    }
 
     @Test
     void dadoUsuarioValido_cuandoBaja_entoncesUsuarioValido() {
@@ -58,6 +52,15 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioNOValido_cuandoBaja_entoncesExcepcion() {
+    }
+
+    //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
+    @Test
+    void dadoUsuarioValido_cuandoActualizar_entoncesUsuarioValido() {
+    }
+
+    @Test
+    void dadoUsuarioNOValido_cuandoActualizar_entoncesExcepcion() {
     }
 // Añadido por Juan para leer usuarios
     @Test

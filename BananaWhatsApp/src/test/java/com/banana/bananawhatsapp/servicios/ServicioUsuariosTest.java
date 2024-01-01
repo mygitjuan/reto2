@@ -3,14 +3,12 @@ package com.banana.bananawhatsapp.servicios;
 import com.banana.bananawhatsapp.config.SpringConfig;
 import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
-import com.banana.bananawhatsapp.persistencia.UsuarioJDBCRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,15 +19,16 @@ import static org.hamcrest.Matchers.*;
 class ServicioUsuariosTest {
 
     @Autowired
-    IServicioUsuarios servicio;
+    IServicioUsuarios usuarioServicio;
 
+    IServicioMensajeria mensajeriaServicio;
 
 
     @Test
     void dadoUnUsuarioValido_cuandoCrearUsuario_entoncesUsuarioValido() throws UsuarioException {
         Usuario u = new Usuario(null,"Servicio3","servicio3@email.com", LocalDate.now(),true);
         System.out.println(u);
-        servicio.crearUsuario(u);
+        usuarioServicio.crearUsuario(u);
         assertNotNull(u.getId());
         assertThat(u.getId(),greaterThan(0));
     }
@@ -40,21 +39,38 @@ class ServicioUsuariosTest {
         System.out.println(u);
 
         assertThrows(Exception.class, () -> {
-                servicio.crearUsuario(u);
+                usuarioServicio.crearUsuario(u);
                 }
         );
     }
 
     @Test
     void dadoUnUsuarioValido_cuandoBorrarUsuario_entoncesUsuarioValido() {
+        Integer idParm = 36;
+        Usuario u = usuarioServicio.leerUsuario(idParm);
+        System.out.println(u);
+
+        mensajeriaServicio.borrarChatConUsuario(u);
+        Boolean mensajeDelete = false;
+        mensajeDelete = mensajeriaServicio.borrarChatConUsuario(u);
+        assertTrue(mensajeDelete);
+
+        Boolean usuarioDelete = false;
+        usuarioDelete = usuarioServicio.borrarUsuario(u);
+        assertTrue(usuarioDelete);
+
+        u = usuarioServicio.leerUsuario(idParm);
+        assertNull(u);
+
     }
 
     @Test
     void dadoUnUsuarioNOValido_cuandoBorrarUsuario_entoncesExcepcion() {
     }
-
+//Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
     @Test
     void dadoUnUsuarioValido_cuandoActualizarUsuario_entoncesUsuarioValido() {
+
     }
 
     @Test
@@ -74,7 +90,7 @@ class ServicioUsuariosTest {
         Usuario remitente = null;
 
         try {
-            remitente= servicio.leerUsuario(1);
+            remitente= usuarioServicio.leerUsuario(1);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de remitente: " + e.getMessage());
         }
@@ -85,7 +101,7 @@ class ServicioUsuariosTest {
         Usuario destinatario = null;
 
         try {
-            destinatario= servicio.leerUsuario(2);
+            destinatario= usuarioServicio.leerUsuario(2);
         }  catch (UsuarioException e) {
             throw new UsuarioException("Error de destinatario: " + e.getMessage());
         }
