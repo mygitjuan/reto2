@@ -110,6 +110,21 @@ class ServicioUsuariosTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoActualizarUsuario_entoncesExcepcion() {
+        Integer identificador = 41;
+        Usuario u = usuarioServicio.leerUsuario(identificador);
+        System.out.println(u);
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        u.setNombre("Pegaso");
+        u.setEmail("pegaso#p.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        assertThrows(Exception.class, () -> {
+                usuarioServicio.actualizarUsuario(u);
+                }
+        );
     }
 
     @Test

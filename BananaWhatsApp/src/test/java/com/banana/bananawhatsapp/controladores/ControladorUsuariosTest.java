@@ -111,6 +111,21 @@ class ControladorUsuariosTest {
 
     @Test
     void dadoUsuarioNOValido_cuandoActualizar_entoncesExcepcion() {
+        Integer identificador = 41;
+        Usuario u = controladorUsuarios.buscaId(identificador);
+        System.out.println(u);
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        u.setNombre("Pegaso");
+        u.setEmail("pegaso#p.com");
+        u.setAlta(LocalDate.now());
+        u.setActivo(true);
+
+        assertThrows(Exception.class, () -> {
+                controladorUsuarios.actualizar(u);
+                }
+        );
     }
 // Añadido por Juan para leer usuarios
     @Test
