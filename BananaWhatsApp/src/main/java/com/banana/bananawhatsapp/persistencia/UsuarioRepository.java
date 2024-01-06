@@ -24,19 +24,13 @@ public class UsuarioRepository implements IUsuarioRepository{
     static {
         listaUsuarios = new ArrayList<>();
         try {
-            listaUsuarios.add(new Usuario(1, "Juan Juanez", "jj@j.com", "Calle JJ 1", LocalDate.now(), true, false, "12345678J"));
-            listaUsuarios.add(new Personal(2, "Luisa Perez", "lp@l.com", "Calle LP 2", LocalDate.now(), true, false, "12345678L"));
-            listaUsuarios.add(new Empresa(3, "Servicios Informatico SL", "si@s.com", "Calle SI 3", LocalDate.now(), true, false, "J12345678", new String[]{"Dev", "Marketing"}));
+            listaUsuarios.add(new Usuario(1, 'Juana', 'juana@j.com', '2023-01-07', true));
+            listaUsuarios.add(new Usuario(2, 'Luis', 'luis@l.com', '2023-01-07', true));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());
         }
     }
-
-
-
-
-
 
 
     @Override
