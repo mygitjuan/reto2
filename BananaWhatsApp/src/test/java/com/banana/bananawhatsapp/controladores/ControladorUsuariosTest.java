@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -126,6 +127,52 @@ class ControladorUsuariosTest {
                 }
         );
     }
+
+    @Test
+    void dadoUnUsuarioValido_cuandoObtenerPosiblesDesinatarios_entoncesUsuarioValido() {
+        Usuario remitente = null;
+        Integer max = 5;
+
+        try {
+            remitente= controladorUsuarios.buscaId(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Set<Usuario> destinatarios = null;
+
+        destinatarios = controladorUsuarios.destinatarios(remitente, max);
+        assertNotNull(destinatarios);
+
+
+    }
+
+    @Test
+    void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDesinatarios_entoncesExcepcion() throws UsuarioException{
+        Usuario remitente = null;
+        final Integer max = 10;
+
+        try {
+            remitente= controladorUsuarios.buscaId(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        final Usuario remitenteFinal = remitente;
+        //el usuario con id=19 no está activo, por lo que no es válido.
+        assertThrows(Exception.class, () -> {
+                controladorUsuarios.destinatarios(remitenteFinal, max);
+                }
+        );
+
+    }
+
 // Añadido por Juan para leer usuarios
     @Test
     void buscaUsuariosValidos() throws UsuarioException {

@@ -6,6 +6,8 @@ import com.banana.bananawhatsapp.servicios.IServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Set;
+
 
 @Controller
 public class ControladorUsuarios {
@@ -63,6 +65,21 @@ public class ControladorUsuarios {
         }
 
     }
+
+    public Set<Usuario> destinatarios(Usuario usuario, Integer max) throws UsuarioException {
+        try {
+
+            Set <Usuario> listaDestinatarios = servicioUsuarios.obtenerPosiblesDesinatarios(usuario,max);
+            System.out.println("Destinatarios encontrados:\n");
+            listaDestinatarios.forEach(System.out::println);
+            return listaDestinatarios;
+        } catch (Exception e) {
+            System.out.println("Ha habido un error: " + e.getMessage());
+            throw e;
+        }
+
+    }
+
 
 
 }

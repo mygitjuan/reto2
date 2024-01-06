@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 import java.sql.*;
 
@@ -148,7 +149,43 @@ public class UsuarioJDBCRepository implements IUsuarioRepository{
 
     @Override
     public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
-        return null;
+        Set<Usuario> usuarioList = new HashSet<>();
+
+        Usuario destinatario = null;
+
+        String sql = "SELECT * FROM usuario u WHERE u.id<>? ORDER BY u.id LIMIT ?";
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, id);
+            stmt.setInt(2, max);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                destinatario =new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("email"),
+                        rs.getDate("alta").toLocalDate(),
+                        rs.getBoolean("activo"));
+
+                destinatario.valido();
+
+                usuarioList.add(destinatario);
+            }
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error en la select: "  + e.getMessage());
+        }
+        return usuarioList;
+
     }
 
 }

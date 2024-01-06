@@ -58,7 +58,16 @@ public class ServicioUsuarios implements IServicioUsuarios{
 
     @Override
     public Set<Usuario> obtenerPosiblesDesinatarios(Usuario usuario, int max) throws UsuarioException {
-        return null;
+        Set<Usuario> listaUsuarios = null;
+
+        try {
+            listaUsuarios = repo.obtenerPosiblesDestinatarios(usuario.getId(), max);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UsuarioException("Error al obtener lista de usuarios: "  + e.getMessage());
+        }
+        return listaUsuarios;
+
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -142,11 +143,42 @@ class UsuarioJDBCRepositoryTest {
 
 
     @Test
-    void dadoUnUsuarioValido_cuandoObtenerPosiblesDestinatarios_entoncesLista() {
+    void dadoUnUsuarioValido_cuandoObtenerPosiblesDestinatarios_entoncesLista() throws SQLException{
+        Integer identificador = 1;
+        Usuario u = usuarioRepo.extraerUsuario(identificador);
+        System.out.println("Remitente:"+u.toString());
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        Set<Usuario> destinatarios = null;
+        Integer max = 5;
+
+        destinatarios = usuarioRepo.obtenerPosiblesDestinatarios(u.getId(),max);
+        assertNotNull(destinatarios);
+        System.out.println("Destinatarios:\n");
+        destinatarios.forEach(System.out::println);
+
+
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDestinatarios_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDestinatarios_entoncesExcepcion() throws SQLException{
+        Integer identificador = 1;
+        Usuario u = usuarioRepo.extraerUsuario(identificador);
+        System.out.println("Remitente:"+u.toString());
+        assertNotNull(u.getId());
+        assertThat(u.getId(),greaterThan(0));
+
+        //el usuario con id=19 no está activo, por lo que no es válido.
+        final Usuario remitente = u;
+        final Integer max = 10;
+
+        assertThrows(Exception.class, () -> {
+                usuarioRepo.obtenerPosiblesDestinatarios(remitente.getId(),max);
+                }
+        );
+
+
     }
 // Añadido por Juan para leer usuarios
     @Test

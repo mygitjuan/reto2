@@ -10,6 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -109,7 +111,7 @@ class ServicioUsuariosTest {
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoActualizarUsuario_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoActualizarUsuario_entoncesExcepcion() throws UsuarioException{
         Integer identificador = 41;
         Usuario u = usuarioServicio.leerUsuario(identificador);
         System.out.println(u);
@@ -129,10 +131,49 @@ class ServicioUsuariosTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoObtenerPosiblesDesinatarios_entoncesUsuarioValido() {
+        Usuario remitente = null;
+        Integer max = 5;
+
+        try {
+            remitente= usuarioServicio.leerUsuario(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        Set<Usuario> destinatarios = null;
+
+        destinatarios = usuarioServicio.obtenerPosiblesDesinatarios(remitente, max);
+        assertNotNull(destinatarios);
+
+        System.out.println("Destinatarios:\n");
+        destinatarios.forEach(System.out::println);
+
     }
 
     @Test
-    void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDesinatarios_entoncesExcepcion() {
+    void dadoUnUsuarioNOValido_cuandoObtenerPosiblesDesinatarios_entoncesExcepcion() throws UsuarioException{
+        Usuario remitente = null;
+        final Integer max = 10;
+
+        try {
+            remitente= usuarioServicio.leerUsuario(1);
+        }  catch (UsuarioException e) {
+            throw new UsuarioException("Error de remitente: " + e.getMessage());
+        }
+
+        assertNotNull(remitente.getId());
+        assertThat(remitente.getId(),greaterThan(0));
+
+        final Usuario remitenteFinal = remitente;
+        //el usuario con id=19 no está activo, por lo que no es válido.
+        assertThrows(Exception.class, () -> {
+                usuarioServicio.obtenerPosiblesDesinatarios(remitenteFinal, max);
+                }
+        );
+
     }
 // Añadido por Juan para leer usuarios
     @Test
