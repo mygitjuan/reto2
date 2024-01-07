@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("prod")
 class UsuarioRepositoryTest {
     @Autowired
     IUsuarioRepository usuarioRepo;

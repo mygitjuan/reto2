@@ -24,7 +24,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-@ActiveProfiles("dev")
+@ActiveProfiles("prod")
 class MensajeRepositoryTest {
 
     @Autowired
