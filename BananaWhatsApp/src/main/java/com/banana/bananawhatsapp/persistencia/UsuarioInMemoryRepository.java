@@ -1,31 +1,30 @@
 package com.banana.bananawhatsapp.persistencia;
 
-import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Setter
 @Getter
 @ToString
-public class UsuarioRepository implements IUsuarioRepository{
+public class UsuarioInMemoryRepository implements IUsuarioRepository{
 
-    private String db_url;
+   /*private String db_url;*/
 
     private final static List<Usuario> listaUsuarios;
 
     static {
         listaUsuarios = new ArrayList<>();
         try {
-            listaUsuarios.add(new Usuario(1, 'Juana', 'juana@j.com', '2023-01-07', true));
-            listaUsuarios.add(new Usuario(2, 'Luis', 'luis@l.com', '2023-01-07', true));
+            listaUsuarios.add(new Usuario(1, "Juana", "juana@j.com", LocalDate.now(), true));
+            listaUsuarios.add(new Usuario(2, "Luis", "luis@l.com", LocalDate.now(), true));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());
@@ -35,7 +34,7 @@ public class UsuarioRepository implements IUsuarioRepository{
 
     @Override
     public Usuario crear(Usuario usuario) throws SQLException {
-         String sql = "INSERT INTO usuario values (NULL,?,?,?,?)";
+      /*   String sql = "INSERT INTO usuario values (NULL,?,?,?,?)";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
@@ -66,14 +65,14 @@ public class UsuarioRepository implements IUsuarioRepository{
             throw new SQLException(e);
         }
 
-        return usuario;
+        return usuario;*/ return null;
     }
 
     @Override
     public Usuario extraerUsuario(Integer identificador) throws SQLException {
         Usuario user = null;
 
-        String sql = "SELECT * FROM usuario u WHERE u.id=? AND activo=1";
+      /*  String sql = "SELECT * FROM usuario u WHERE u.id=? AND activo=1";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
@@ -84,7 +83,7 @@ public class UsuarioRepository implements IUsuarioRepository{
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                /*System.out.println(rs);*/
+
                 user = new Usuario(
                         rs.getInt("id"),
                         rs.getString("nombre"),
@@ -98,13 +97,13 @@ public class UsuarioRepository implements IUsuarioRepository{
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Error en la select: "  + e.getMessage());
-        }
+        }*/
         return user;
     }
 //muevo de sitio los metodos para que queden en el orden igual que los casos
     @Override
     public boolean borrar(Usuario usuario) throws SQLException {
-        String sql = "DELETE FROM usuario WHERE id=?";
+      /*  String sql = "DELETE FROM usuario WHERE id=?";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
@@ -126,12 +125,12 @@ public class UsuarioRepository implements IUsuarioRepository{
         }
 
         System.out.println("Salimos de borrar- UsuarioRepository");
-        return true;
+        return true;*/ return false;
     }
 
     @Override
     public Usuario actualizar(Usuario usuario) throws SQLException {
-        String sql = "UPDATE usuario set activo=?, alta=?, email=?, nombre=? WHERE id=?";
+       /* String sql = "UPDATE usuario set activo=?, alta=?, email=?, nombre=? WHERE id=?";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
@@ -157,12 +156,12 @@ public class UsuarioRepository implements IUsuarioRepository{
             throw e;
         }
 
-        return usuario;
+        return usuario;*/ return null;
     }
 
     @Override
     public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
-        Set<Usuario> usuarioList = new HashSet<>();
+    /*    Set<Usuario> usuarioList = new HashSet<>();
 
         Usuario destinatario = null;
 
@@ -197,7 +196,7 @@ public class UsuarioRepository implements IUsuarioRepository{
             e.printStackTrace();
             throw new SQLException("Error en la select: "  + e.getMessage());
         }
-        return usuarioList;
+        return usuarioList;*/ return null;
 
     }
 
