@@ -13,6 +13,7 @@ public class ReposConfig {
 
 
     @Bean
+    @Profile("prod")
     public IUsuarioRepository createIUsuarioRepository() throws Exception {
         UsuarioJDBCRepository repo = new UsuarioJDBCRepository();
         repo.setDb_url(connUrl);
@@ -25,5 +26,14 @@ public class ReposConfig {
         repo.setDb_url(connUrl);
         return repo;
     }
+
+    @Bean
+    @Profile("dev")
+    public IUsuarioRepository createIUsuarioRepoInMemo() throws Exception {
+        UsuarioInMemoryRepository repo = new UsuarioInMemoryRepository();
+        return repo;
+    }
+
+
 
 }

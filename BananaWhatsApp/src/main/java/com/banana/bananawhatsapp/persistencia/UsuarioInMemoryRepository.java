@@ -1,5 +1,6 @@
 package com.banana.bananawhatsapp.persistencia;
 
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,38 +35,20 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
 
     @Override
     public Usuario crear(Usuario usuario) throws SQLException {
-      /*   String sql = "INSERT INTO usuario values (NULL,?,?,?,?)";
+        usuario.valido();
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ) {
+        try  {
 
             usuario.valido();
-
-            stmt.setBoolean(1, usuario.isActivo());
-            stmt.setString(2, usuario.getAlta().toString());
-            stmt.setString(3, usuario.getEmail());
-            stmt.setString(4, usuario.getNombre());
-
-            int rows = stmt.executeUpdate();
-
-            ResultSet genKeys = stmt.getGeneratedKeys();
-            if (genKeys.next()) {
-                usuario.setId(genKeys.getInt(1));
-            } else {
-                throw new SQLException("Usuario creado erroneamente!!!");
-            }
+            usuario.setId(listaUsuarios.size() + 1);
+            listaUsuarios.add(usuario);
 
         } catch (UsuarioException e) {
             e.printStackTrace();
             throw e;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException(e);
         }
 
-        return usuario;*/ return null;
+        return usuario;
     }
 
     @Override

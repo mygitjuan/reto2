@@ -19,7 +19,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
-class MensajeJDBCRepositoryTest {
+class MensajeRepositoryTest {
 
     @Autowired
     IMensajeRepository repoMen;
