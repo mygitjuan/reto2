@@ -145,29 +145,33 @@ public class MensajeInMemoryRepository implements IMensajeRepository{
 
     @Override
     public boolean borrarTodos(Usuario usuario, Usuario destinatario) throws SQLException {
-     /*   String sql = "DELETE FROM mensaje WHERE from_user=? AND to_user=?";
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, usuario.getId());
-            stmt.setInt(2, destinatario.getId());
+        System.out.println(listaMensajes);
+        Set<Mensaje> mensajeSeleccionado = new HashSet<>();
 
-            int rows = stmt.executeUpdate();
-            System.out.println(rows);
-
-            if(rows<=0){
-                throw new SQLException();
+        if (usuario.getId() > 0) {
+            try {
+                for (Mensaje m : listaMensajes) {
+                    if (m.getRemitente().getId().equals(usuario.getId())) mensajeSeleccionado.add(m);
+                    if (m.getDestinatario().getId().equals(destinatario.getId())) mensajeSeleccionado.add(m);
+                }
+            } catch (MensajeException e) {
+                e.printStackTrace();
+                throw new MensajeException("Mensaje no existe" + e.getMessage());
+            }
+            try {
+                Iterator<Mensaje> mensajeIterator = mensajeSeleccionado.iterator();
+                while (mensajeIterator.hasNext()) {
+                    listaMensajes.remove(mensajeIterator.next());
+                }
+                if (listaMensajes.isEmpty()) ;
+                else System.out.println("Despues de remover mensajes: " + listaMensajes);
+            } catch (MensajeException e) {
+                e.printStackTrace();
+                throw new MensajeException("Mensaje no se ha podido remover: " + e.getMessage());
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en el delete: "  + e.getMessage());
-
-        }
-
-        return true;*/ return false;
+        } else throw new MensajeException("Mensaje no existe: Valor nulo");
+        return true;
     }
-
 }

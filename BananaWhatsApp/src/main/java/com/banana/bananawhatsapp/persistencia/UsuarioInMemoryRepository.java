@@ -61,15 +61,10 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
             try {
                 for (Usuario u : listaUsuarios) {
                     if (u.getId() == identificador) {
-                        u.valido();
                         usuario = u;
-
-
+                        usuario.valido();
                     }
-
                 }
-
-
             } catch (UsuarioException e) {
             e.printStackTrace();
             throw new UsuarioException("Usuario no existe" + e.getMessage());
