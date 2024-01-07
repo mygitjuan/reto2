@@ -105,7 +105,8 @@ class UsuarioRepositoryTest {
 //Juan: muevo actualizar después de los test de Baja para tenerlos en orden de casos de usuario
     @Test
     void dadoUnUsuarioValido_cuandoActualizar_entoncesUsuarioValido() throws SQLException{
-        Integer identificador = 41;
+        /*Integer identificador = 41;*/ /*prod*/
+        Integer identificador = 2; /*dev*/
         Usuario u = usuarioRepo.extraerUsuario(identificador);
         System.out.println(u);
         assertNotNull(u.getId());
@@ -122,12 +123,14 @@ class UsuarioRepositoryTest {
         Usuario usuarioActualizado = usuarioRepo.actualizar(u);
         assertNotNull(usuarioActualizado);
         assertEquals(usuarioActualizado.getId(), u.getId());
+        System.out.println("Usuario actualizado:"+u.toString());
 
     }
 
     @Test
     void dadoUnUsuarioNOValido_cuandoActualizar_entoncesExcepcion() throws SQLException{
-        Integer identificador = 41;
+        /*Integer identificador = 41;*/ /*prod*/
+        Integer identificador = 4; /*dev*/
         Usuario u = usuarioRepo.extraerUsuario(identificador);
         System.out.println(u);
         assertNotNull(u.getId());
@@ -155,7 +158,7 @@ class UsuarioRepositoryTest {
         assertThat(u.getId(),greaterThan(0));
 
         Set<Usuario> destinatarios = null;
-        Integer max = 5;
+        Integer max = 3;
 
         destinatarios = usuarioRepo.obtenerPosiblesDestinatarios(u.getId(),max);
         assertNotNull(destinatarios);
@@ -175,7 +178,8 @@ class UsuarioRepositoryTest {
 
         //el usuario con id=19 no está activo, por lo que no es válido.
         final Usuario remitente = u;
-        final Integer max = 10;
+        /*final Integer max = 10;*//*prod*/
+        final Integer max = 5;/*dev*/
 
         assertThrows(Exception.class, () -> {
                 usuarioRepo.obtenerPosiblesDestinatarios(remitente.getId(),max);
@@ -194,7 +198,9 @@ class UsuarioRepositoryTest {
 
     @Test
     void comprobarSelectUsuarioNoExistente () throws SQLException {
-        Usuario u = usuarioRepo.extraerUsuario(3);
+        /*int identificador = 3;*/ /*prod*/
+        int identificador = 13; /*dev*/
+        Usuario u = usuarioRepo.extraerUsuario(identificador);
         assertNull(u);
     }
 }

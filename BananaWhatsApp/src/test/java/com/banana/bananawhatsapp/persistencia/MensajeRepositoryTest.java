@@ -1,6 +1,8 @@
 package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.config.SpringConfig;
+import com.banana.bananawhatsapp.exceptions.MensajeException;
+import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import org.junit.jupiter.api.Test;
@@ -30,16 +32,21 @@ class MensajeRepositoryTest {
 
     @Test
     void dadoUnMensajeValido_cuandoCrear_entoncesMensajeValido() throws SQLException{
+        /*int identificadorRemitente = 22; *//*prod*/
+        /*int identificadorDestinatario = 21;*//*prod*/
+        int identificadorRemitente = 3; /*dev*/
+        int identificadorDestinatario = 4;/*dev*/
+
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(22);
+            remitente = repoUsu.extraerUsuario(identificadorRemitente);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
         System.out.println("Remitente:" + remitente.toString());
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(21);
+            destinatario = repoUsu.extraerUsuario(identificadorDestinatario);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -54,16 +61,21 @@ class MensajeRepositoryTest {
 
     @Test
     void dadoUnMensajeNOValido_cuandoCrear_entoncesExcepcion() throws SQLException{
+        /*int identificadorRemitente = 1; *//*prod*/
+        /*int identificadorDestinatario = 2;*//*prod*/
+        int identificadorRemitente = 3; /*dev*/
+        int identificadorDestinatario = 4;/*dev*/
+
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(1);
+            remitente = repoUsu.extraerUsuario(identificadorRemitente);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
         System.out.println("Remitente:" + remitente.toString());
         Usuario destinatario = null;
         try {
-            destinatario = repoUsu.extraerUsuario(2);
+            destinatario = repoUsu.extraerUsuario(identificadorDestinatario);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -79,9 +91,12 @@ class MensajeRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoObtener_entoncesListaMensajes() throws SQLException{
+        /*int identificadorRemitente = 1; *//*prod*/
+        int identificadorRemitente = 1; /*dev*/
+
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(1);
+            remitente = repoUsu.extraerUsuario(identificadorRemitente);
         } catch (SQLException e) {
             throw new SQLException(e);
         }
@@ -127,13 +142,20 @@ class MensajeRepositoryTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoObtener_entoncesExcepcion() throws SQLException{
+        /*int identificadorRemitente = 18; *//*prod*/
+        int identificadorRemitente = 18; /*dev*/
         Usuario remitente = null;
         try {
-            remitente = repoUsu.extraerUsuario(18);
+            remitente = repoUsu.extraerUsuario(identificadorRemitente);
+        } catch (UsuarioException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (MensajeException e) {
+            e.printStackTrace();
+            throw e;
         } catch (SQLException e) {
             throw new SQLException(e);
         }
-        System.out.println("Remitente:" + remitente.toString());
 
         final Usuario remitenteFinal = remitente;
         assertThrows(Exception.class, () -> {

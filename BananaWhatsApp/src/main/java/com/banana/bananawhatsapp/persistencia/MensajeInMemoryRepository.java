@@ -15,17 +15,6 @@ import java.util.*;
 @Getter
 @ToString
 public class MensajeInMemoryRepository implements IMensajeRepository{
-/*
-    private Integer id;
-    private Usuario remitente;
-    private Usuario destinatario;
-    private String cuerpo;
-    private LocalDate fecha;
-    (1, 'Hola, qué tal?', '2023-11-25', 1, 2),
-    (2, 'Muy bien! y tu?', '2023-11-25', 2, 1),
-    (3, 'Bien también...', '2023-11-25', 1, 2),
-    (4, 'Chachi!', '2023-11-25', 2, 1);
- */
 
     private final static List<Mensaje> listaMensajes;
     private final static UsuarioInMemoryRepository repoUsuario;
@@ -49,9 +38,9 @@ public class MensajeInMemoryRepository implements IMensajeRepository{
             listaMensajes.add(new Mensaje( 1,remitente,destinatario,"Hola, qué tal?", LocalDate.now()));
             listaMensajes.add(new Mensaje( 2,destinatario,remitente,"Muy bien! y tu?", LocalDate.now()));
             listaMensajes.add(new Mensaje( 3,remitente,destinatario,"Bien también...", LocalDate.now()));
-            listaMensajes.add(new Mensaje( 4,destinatario,remitente,"Chachi!", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 4,destinatario_2,remitente_2,"Chachi!", LocalDate.now()));
             listaMensajes.add(new Mensaje( 5,remitente_2,destinatario_2,"A quién corrresponda", LocalDate.now()));
-            listaMensajes.add(new Mensaje( 6,destinatario_2,remitente_2,"Saludos", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 6,destinatario_2,remitente_2,"Saludos a todos", LocalDate.now()));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear mensajes: " + e.getMessage());
@@ -81,102 +70,46 @@ public class MensajeInMemoryRepository implements IMensajeRepository{
 
     @Override
     public List<Mensaje> obtener(Usuario usuario) throws SQLException {
-     /*   List<Mensaje> mensajeList = new ArrayList<>();
-        Mensaje mensaje = null;
-        Usuario destinatario = null;
+        List<Mensaje> mensajeList = new ArrayList<>();
 
-        String sql = "SELECT m.*, u.* FROM mensaje m LEFT JOIN usuario u ON m.to_user = u.id WHERE m.from_user=?";
-
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, usuario.getId());
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-
-                destinatario =new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getDate("alta").toLocalDate(),
-                        rs.getBoolean("activo"));
-
-                destinatario.valido();
-
-                mensaje = new Mensaje(
-                        rs.getInt("id"),
-                        usuario,
-                        destinatario,
-                        rs.getString("cuerpo"),
-                        rs.getDate("fecha").toLocalDate());
-
-                mensajeList.add(mensaje);
-            }
-        } catch (UsuarioException e) {
+        if (usuario.getId() > 0) {
+         try {
+          for (Mensaje m : listaMensajes) {
+             if (m.getRemitente().getId().equals(usuario.getId())
+              || m.getDestinatario().getId().equals(usuario.getId())) {
+                 System.out.println("jaja"+m.toString());
+                 m.valido();
+                 mensajeList.add(m);
+             }
+          }
+         } catch (MensajeException e) {
             e.printStackTrace();
-            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en la select: "  + e.getMessage());
+            throw new MensajeException("Mensaje no válido" + e.getMessage());
+         }
+
         }
-        return mensajeList;*/ return null;
+        return mensajeList;
     }
 
     @Override
     public List<Mensaje> obtener(Usuario usuario, Usuario destinatario) throws SQLException {
-     /*   List<Mensaje> mensajeList = new ArrayList<>();
-        Mensaje mensaje = null;
+        List<Mensaje> mensajeList = new ArrayList<>();
 
-        String sql = "SELECT m.*, u.*, v.* FROM mensaje m LEFT JOIN (usuario u, usuario v) ON m.from_user = u.id and m.to_user = v.id WHERE m.from_user=? AND m.to_user=?";
-
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, usuario.getId());
-            stmt.setInt(2, destinatario.getId());
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Usuario remitenteDB = new Usuario(
-                        rs.getInt(6),
-                        rs.getString(10),
-                        rs.getString(9),
-                        rs.getDate(8).toLocalDate(),
-                        rs.getBoolean(7));
-
-                remitenteDB.valido();
-
-                Usuario destinatarioDB = new Usuario(
-                        rs.getInt(11),
-                        rs.getString(15),
-                        rs.getString(14),
-                        rs.getDate(13).toLocalDate(),
-                        rs.getBoolean(12));
-
-                destinatarioDB.valido();
-
-                mensaje = new Mensaje(
-                        rs.getInt("id"),
-                        remitenteDB,
-                        destinatarioDB,
-                        rs.getString("cuerpo"),
-                        rs.getDate("fecha").toLocalDate());
-
-                mensajeList.add(mensaje);
-            }
-        } catch (UsuarioException e) {
+        if (usuario.getId() > 0) {
+         try {
+          for (Mensaje m : listaMensajes) {
+             if (m.getRemitente().getId().equals(usuario.getId())
+              || m.getDestinatario().getId().equals(destinatario.getId())) {
+                 m.valido();
+                 mensajeList.add(m);
+             }
+          }
+         } catch (MensajeException e) {
             e.printStackTrace();
-            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en la select: "  + e.getMessage());
+            throw new MensajeException("Mensaje no válido" + e.getMessage());
+         }
         }
-        return mensajeList;*/ return null;
+        return mensajeList;
     }
 
     @Override

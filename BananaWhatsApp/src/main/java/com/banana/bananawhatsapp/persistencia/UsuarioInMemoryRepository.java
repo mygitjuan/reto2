@@ -9,6 +9,7 @@ import lombok.ToString;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,8 +17,6 @@ import java.util.Set;
 @Getter
 @ToString
 public class UsuarioInMemoryRepository implements IUsuarioRepository{
-
-   /*private String db_url;*/
 
     private final static List<Usuario> listaUsuarios;
 
@@ -29,6 +28,7 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
             listaUsuarios.add(new Usuario(3, "Bill", "bill@b.com", LocalDate.now(), true));
             listaUsuarios.add(new Usuario(4, "Pepe", "pepe@p.com", LocalDate.now(), true));
             listaUsuarios.add(new Usuario(5, "Inválido", "invalido@i.com", LocalDate.now(), false));
+            listaUsuarios.add(new Usuario(6, "Barbara", "barbara@b.com", LocalDate.now(), true));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());
@@ -61,15 +61,20 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
             try {
                 for (Usuario u : listaUsuarios) {
                     if (u.getId() == identificador) {
+                        u.valido();
                         usuario = u;
-                        usuario.valido();
+
+
                     }
+
                 }
+
+
             } catch (UsuarioException e) {
             e.printStackTrace();
-            throw new UsuarioException("Cliente no existe" + e.getMessage());
+            throw new UsuarioException("Usuario no existe" + e.getMessage());
             }
-        } else throw new UsuarioException("Cliente no existe: Valor nulo");
+        } else throw new UsuarioException("Usuario no existe: Valor nulo");
         return usuario;
     }
 //muevo de sitio los metodos para que queden en el orden igual que los casos
@@ -102,74 +107,46 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
 
     @Override
     public Usuario actualizar(Usuario usuario) throws SQLException {
-       /* String sql = "UPDATE usuario set activo=?, alta=?, email=?, nombre=? WHERE id=?";
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
+        try {
+            if (usuario.valido()) {
+                for (Usuario u : listaUsuarios) {
+                    if (u.getId().equals(usuario.getId())) {
+                        int indice = listaUsuarios.indexOf(u);
+                        listaUsuarios.set(indice, usuario);
 
-            usuario.valido();
-
-            stmt.setBoolean(1, usuario.isActivo());
-            stmt.setString(2, usuario.getAlta().toString());
-            stmt.setString(3, usuario.getEmail());
-            stmt.setString(4, usuario.getNombre());
-            stmt.setInt(5, usuario.getId());
-
-            int rows = stmt.executeUpdate();
-
+                    }
+                }
+            } else throw new UsuarioException("Usuario no valido");
         } catch (UsuarioException e) {
             e.printStackTrace();
-            throw new SQLException("Error en el update: "  + e.getMessage());
+            throw new UsuarioException("Usuario no existe" + e.getMessage());
+         }
+        return usuario;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        return usuario;*/ return null;
     }
 
     @Override
     public Set<Usuario> obtenerPosiblesDestinatarios(Integer id, Integer max) throws SQLException {
-    /*    Set<Usuario> usuarioList = new HashSet<>();
+        Usuario usuario = extraerUsuario(id);
 
-        Usuario destinatario = null;
+        Set<Usuario> usuarioList = new HashSet<>();
 
-        String sql = "SELECT * FROM usuario u WHERE u.id<>? ORDER BY u.id LIMIT ?";
+        try  {
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, id);
-            stmt.setInt(2, max);
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-
-                destinatario =new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getDate("alta").toLocalDate(),
-                        rs.getBoolean("activo"));
-
-                destinatario.valido();
-
-                usuarioList.add(destinatario);
+            for (int i=1;i<=max; i++){
+                Usuario usuarioSeleccionado = (Usuario) listaUsuarios.get(i);
+                if (usuarioSeleccionado.getId().equals(usuario.getId()));
+                else {
+                    usuarioSeleccionado.valido();
+                    usuarioList.add(usuarioSeleccionado);
+                }
             }
+
         } catch (UsuarioException e) {
             e.printStackTrace();
-            throw new SQLException("Error en validación destinatario: "  + e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en la select: "  + e.getMessage());
+            throw new UsuarioException("Error en validación destinatario: " + e.getMessage());
         }
-        return usuarioList;*/ return null;
-
+        return usuarioList;
     }
-
 }
