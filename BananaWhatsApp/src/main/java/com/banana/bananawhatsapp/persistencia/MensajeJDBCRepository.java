@@ -177,7 +177,7 @@ public class MensajeJDBCRepository implements IMensajeRepository{
             throw new SQLException("Error en el delete: "  + e.getMessage());
 
         }
-        System.out.println("Salimos de borrarTodos- MensajeRepository");
+
         return true;
 
 

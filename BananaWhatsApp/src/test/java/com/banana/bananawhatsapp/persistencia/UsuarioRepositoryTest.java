@@ -56,7 +56,8 @@ class UsuarioRepositoryTest {
 
     @Test
     void dadoUnUsuarioValido_cuandoBorrar_entoncesOK() throws SQLException{
-        Integer identificador = 33;
+        /*Integer identificador = 33;*/ /*prod*/
+        Integer identificador = 1; /*dev*/
         Usuario u = usuarioRepo.extraerUsuario(identificador);
         System.out.println(u);
         assertNotNull(u.getId());

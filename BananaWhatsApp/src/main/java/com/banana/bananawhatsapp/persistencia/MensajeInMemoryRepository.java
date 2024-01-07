@@ -1,7 +1,6 @@
 package com.banana.bananawhatsapp.persistencia;
 
 import com.banana.bananawhatsapp.exceptions.MensajeException;
-import com.banana.bananawhatsapp.exceptions.UsuarioException;
 import com.banana.bananawhatsapp.modelos.Mensaje;
 import com.banana.bananawhatsapp.modelos.Usuario;
 import lombok.Getter;
@@ -9,50 +8,75 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Setter
 @Getter
 @ToString
 public class MensajeInMemoryRepository implements IMensajeRepository{
+/*
+    private Integer id;
+    private Usuario remitente;
+    private Usuario destinatario;
+    private String cuerpo;
+    private LocalDate fecha;
+    (1, 'Hola, qué tal?', '2023-11-25', 1, 2),
+    (2, 'Muy bien! y tu?', '2023-11-25', 2, 1),
+    (3, 'Bien también...', '2023-11-25', 1, 2),
+    (4, 'Chachi!', '2023-11-25', 2, 1);
+ */
+
+    private final static List<Mensaje> listaMensajes;
+    private final static UsuarioInMemoryRepository repoUsuario;
+    private static Usuario remitente, remitente_2;
+    private static Usuario destinatario, destinatario_2;
+    static {
+        listaMensajes = new ArrayList<>();
+        repoUsuario = new UsuarioInMemoryRepository();
+
+        try {
+            remitente = repoUsuario.extraerUsuario(1);
+            destinatario = repoUsuario.extraerUsuario(2);
+            remitente_2 = repoUsuario.extraerUsuario(3);
+            destinatario_2 = repoUsuario.extraerUsuario(4);
+
+        } catch (Exception e) {
+            System.out.println("⚠ Error al consultar usuarios: " + e.getMessage());
+        }
+
+        try {
+            listaMensajes.add(new Mensaje( 1,remitente,destinatario,"Hola, qué tal?", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 2,destinatario,remitente,"Muy bien! y tu?", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 3,remitente,destinatario,"Bien también...", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 4,destinatario,remitente,"Chachi!", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 5,remitente_2,destinatario_2,"A quién corrresponda", LocalDate.now()));
+            listaMensajes.add(new Mensaje( 6,destinatario_2,remitente_2,"Saludos", LocalDate.now()));
+
+        } catch (Exception e) {
+            System.out.println("⚠ Error al crear mensajes: " + e.getMessage());
+        }
+
+    }
+
+
 
    /* private String db_url;*/
     @Override
     public Mensaje crear(Mensaje mensaje) throws SQLException {
 
-/*    String sql = "INSERT INTO mensaje values (NULL,?,?,?,?)";
-
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ) {
-
+        try  {
             mensaje.valido();
-
-            stmt.setString(1, mensaje.getCuerpo());
-            stmt.setString(2, mensaje.getFecha().toString());
-            stmt.setInt(3, mensaje.getRemitente().getId());
-            stmt.setInt(4, mensaje.getDestinatario().getId());
-
-            int rows = stmt.executeUpdate();
-
-            ResultSet genKeys = stmt.getGeneratedKeys();
-            if (genKeys.next()) {
-                mensaje.setId(genKeys.getInt(1));
-            } else {
-                throw new SQLException("Usuario creado erroneamente!!!");
-            }
+            mensaje.setId(listaMensajes.size() + 1);
+            listaMensajes.add(mensaje);
 
         } catch (MensajeException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException(e);
+          e.printStackTrace();
+          throw e;
         }
 
-        return mensaje;*/ return null;
+        return mensaje;
+
     }
 
     @Override
@@ -157,32 +181,33 @@ public class MensajeInMemoryRepository implements IMensajeRepository{
 
     @Override
     public boolean borrarTodos(Usuario usuario) throws SQLException {
-       /* String sql = "DELETE FROM mensaje WHERE from_user=? OR to_user=?";
+        System.out.println(listaMensajes);
+        Set<Mensaje> mensajeSeleccionado = new HashSet<>();
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, usuario.getId());
-            stmt.setInt(2, usuario.getId());
-
-            int rows = stmt.executeUpdate();
-            System.out.println(rows);
-
-            if(rows<=0){
-                throw new SQLException();
-            }
-
-        } catch (SQLException e) {
+        if (usuario.getId() > 0) {
+         try {
+          for (Mensaje m : listaMensajes) {
+             if (m.getRemitente().getId().equals(usuario.getId())) mensajeSeleccionado.add(m);
+             if (m.getDestinatario().getId().equals(usuario.getId())) mensajeSeleccionado.add(m);
+          }
+         } catch (MensajeException e) {
             e.printStackTrace();
-            throw new SQLException("Error en el delete: "  + e.getMessage());
+            throw new MensajeException("Mensaje no existe" + e.getMessage());
+         }
+         try {
+            Iterator<Mensaje> mensajeIterator = mensajeSeleccionado.iterator();
+            while (mensajeIterator.hasNext()){
+             listaMensajes.remove(mensajeIterator.next());
+            }
+          if (listaMensajes.isEmpty());
+          else System.out.println("Despues de remover: " + listaMensajes);
+         } catch (MensajeException e) {
+            e.printStackTrace();
+            throw new MensajeException("Mensaje no se ha podido remover: " + e.getMessage());
+         }
 
-        }
-        System.out.println("Salimos de borrarTodos- MensajeRepository");
-        return true;*/ return false;
-
-
-
+        } else throw new MensajeException("Mensaje no existe: Valor nulo");
+        return true;
     }
 
     @Override

@@ -21,6 +21,7 @@ public class ReposConfig {
     }
 
     @Bean
+    @Profile("prod")
     public IMensajeRepository createIMensajeRepository() throws Exception {
         MensajeJDBCRepository repo = new MensajeJDBCRepository();
         repo.setDb_url(connUrl);
@@ -34,6 +35,11 @@ public class ReposConfig {
         return repo;
     }
 
-
+    @Bean
+    @Profile("dev")
+    public IMensajeRepository createIMensajeRepoInMemory() throws Exception {
+        MensajeInMemoryRepository repo = new MensajeInMemoryRepository();
+        return repo;
+    }
 
 }

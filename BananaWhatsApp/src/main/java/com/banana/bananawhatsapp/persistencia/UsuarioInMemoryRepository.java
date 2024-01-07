@@ -26,6 +26,8 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
         try {
             listaUsuarios.add(new Usuario(1, "Juana", "juana@j.com", LocalDate.now(), true));
             listaUsuarios.add(new Usuario(2, "Luis", "luis@l.com", LocalDate.now(), true));
+            listaUsuarios.add(new Usuario(3, "Bill", "bill@b.com", LocalDate.now(), true));
+            listaUsuarios.add(new Usuario(4, "Pepe", "pepe@p.com", LocalDate.now(), true));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());
@@ -35,7 +37,6 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
 
     @Override
     public Usuario crear(Usuario usuario) throws SQLException {
-        usuario.valido();
 
         try  {
 
@@ -53,35 +54,19 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
 
     @Override
     public Usuario extraerUsuario(Integer identificador) throws SQLException {
-        Usuario user = null;
+        Usuario usuario = null;
 
-      /*  String sql = "SELECT * FROM usuario u WHERE u.id=? AND activo=1";
-
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, identificador);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-
-                user = new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getDate("alta").toLocalDate(),
-                        rs.getBoolean("activo"));
-
-                user.valido();
-            }
-
-        } catch (SQLException e) {
+        if (listaUsuarios != null) {
+            try {
+                for (Usuario u : listaUsuarios) {
+                    if (u.getId() == identificador) usuario = u;
+                }
+            } catch (UsuarioException e) {
             e.printStackTrace();
-            throw new SQLException("Error en la select: "  + e.getMessage());
-        }*/
-        return user;
+            throw new UsuarioException("Cliente no existe" + e.getMessage());
+            }
+        } else throw new UsuarioException("Cliente no existe: Valor nulo");
+        return usuario;
     }
 //muevo de sitio los metodos para que queden en el orden igual que los casos
     @Override
