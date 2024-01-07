@@ -78,7 +78,8 @@ class UsuarioRepositoryTest {
 
     @Test
     void dadoUnUsuarioNOValido_cuandoBorrar_entoncesExcepcion() throws SQLException{
-        final Integer identificador = 32;
+        /*final Integer identificador = 32;*//*prod*/
+        final Integer identificador = 5; /*dev*/
 
         assertThrows(Exception.class, () -> {
                 usuarioRepo.extraerUsuario(identificador);

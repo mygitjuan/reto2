@@ -200,7 +200,7 @@ public class MensajeInMemoryRepository implements IMensajeRepository{
              listaMensajes.remove(mensajeIterator.next());
             }
           if (listaMensajes.isEmpty());
-          else System.out.println("Despues de remover: " + listaMensajes);
+          else System.out.println("Despues de remover mensajes: " + listaMensajes);
          } catch (MensajeException e) {
             e.printStackTrace();
             throw new MensajeException("Mensaje no se ha podido remover: " + e.getMessage());

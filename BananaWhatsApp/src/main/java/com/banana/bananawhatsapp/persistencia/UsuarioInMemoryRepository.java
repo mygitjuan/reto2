@@ -28,6 +28,7 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
             listaUsuarios.add(new Usuario(2, "Luis", "luis@l.com", LocalDate.now(), true));
             listaUsuarios.add(new Usuario(3, "Bill", "bill@b.com", LocalDate.now(), true));
             listaUsuarios.add(new Usuario(4, "Pepe", "pepe@p.com", LocalDate.now(), true));
+            listaUsuarios.add(new Usuario(5, "Inválido", "invalido@i.com", LocalDate.now(), false));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());
@@ -59,7 +60,10 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
         if (listaUsuarios != null) {
             try {
                 for (Usuario u : listaUsuarios) {
-                    if (u.getId() == identificador) usuario = u;
+                    if (u.getId() == identificador) {
+                        usuario = u;
+                        usuario.valido();
+                    }
                 }
             } catch (UsuarioException e) {
             e.printStackTrace();
@@ -71,29 +75,29 @@ public class UsuarioInMemoryRepository implements IUsuarioRepository{
 //muevo de sitio los metodos para que queden en el orden igual que los casos
     @Override
     public boolean borrar(Usuario usuario) throws SQLException {
-      /*  String sql = "DELETE FROM usuario WHERE id=?";
+        System.out.println("Lista Usuarios:"+listaUsuarios);
+        Usuario usuarioSeleccionado = null;
 
-        try (
-                Connection conn = DriverManager.getConnection(db_url);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            stmt.setInt(1, usuario.getId());
+        if (usuario.getId() > 0) {
+         try {
+          for (Usuario u : listaUsuarios) {
+             if (u.getId().equals(usuario.getId())) usuarioSeleccionado=u;
+          }
 
-            int rows = stmt.executeUpdate();
-            System.out.println(rows);
+          listaUsuarios.remove(usuarioSeleccionado);
 
-            if(rows<=0){
-                throw new SQLException();
-            }
+          if (listaUsuarios.isEmpty()) System.out.println("No quedan usuarios en memoria");
+          else System.out.println("Despues de remover usuario: " + listaUsuarios);
 
-        } catch (SQLException e) {
+
+         } catch (UsuarioException e) {
             e.printStackTrace();
-            throw new SQLException("Error en el delete: "  + e.getMessage());
+            throw new UsuarioException("Usuario no existe" + e.getMessage());
+         }
 
-        }
+        } else throw new UsuarioException("Usuario no existe: Valor nulo");
+        return true;
 
-        System.out.println("Salimos de borrar- UsuarioRepository");
-        return true;*/ return false;
     }
 
     @Override
